@@ -849,6 +849,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .salon-stack {
+    grid-template-columns: 1fr;
+  }
+
   .hero {
     min-height: auto;
   }
