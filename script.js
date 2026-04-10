@@ -37,3 +37,18 @@ if ("IntersectionObserver" in window) {
 } else {
   reveals.forEach((element) => element.classList.add("is-visible"));
 }
+
+const menuToggles = document.querySelectorAll("[data-menu-toggle]");
+
+menuToggles.forEach((button) => {
+  const targetId = button.getAttribute("aria-controls");
+  const menu = targetId ? document.getElementById(targetId) : null;
+
+  if (!menu) return;
+
+  button.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("is-open");
+    button.classList.toggle("is-active", isOpen);
+    button.setAttribute("aria-expanded", String(isOpen));
+  });
+});
