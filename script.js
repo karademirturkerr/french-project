@@ -37,3 +37,17 @@ if ("IntersectionObserver" in window) {
 } else {
   reveals.forEach((element) => element.classList.add("is-visible"));
 }
+
+const langSwitches = document.querySelectorAll("[data-lang-switch]");
+
+langSwitches.forEach((select) => {
+  const htmlLang = document.documentElement.lang || "fr";
+  select.value = htmlLang.startsWith("tr") ? "tr" : "fr";
+
+  select.addEventListener("change", () => {
+    const target = select.value === "tr" ? select.dataset.tr : select.dataset.fr;
+    if (target) {
+      window.location.href = target;
+    }
+  });
+});
