@@ -1088,6 +1088,9 @@ p {
 
   .hero-photo-frame {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     padding: 12px;
     border-radius: 24px;
   }
@@ -1107,19 +1110,25 @@ p {
   }
 
   .frame-badge {
-    top: 24px;
-    left: 24px;
+    position: static;
+    top: auto;
+    left: auto;
+    align-self: flex-start;
   }
 
   .frame-overlay {
-    left: 24px;
-    right: 24px;
-    bottom: 24px;
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    padding: 6px 4px 2px;
   }
 
   .frame-overlay p {
-    max-width: 16ch;
-    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    max-width: 100%;
+    font-size: clamp(1.35rem, 6.2vw, 1.8rem);
+    line-height: 1.08;
   }
 
   .floating-panel {
@@ -1137,6 +1146,10 @@ p {
     right: auto;
     top: auto;
     bottom: auto;
+  }
+
+  .panel-bottom {
+    order: 3;
   }
 
   .lede,
@@ -1315,7 +1328,7 @@ p {
   }
 
   .frame-overlay p {
-    font-size: 1.3rem;
+    font-size: 1.16rem;
   }
 
   .slider-track {
