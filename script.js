@@ -50,5 +50,6 @@ menuToggles.forEach((button) => {
     const isOpen = menu.classList.toggle("is-open");
     button.classList.toggle("is-active", isOpen);
     button.setAttribute("aria-expanded", String(isOpen));
+    document.body.classList.toggle("menu-open", isOpen);
   });
 });
