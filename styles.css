@@ -1040,6 +1040,9 @@ p {
   .hero-visual {
     order: 1;
     gap: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .hero-kicker {
@@ -1120,8 +1123,20 @@ p {
   }
 
   .floating-panel {
+    position: static;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
     padding: 14px 16px;
     border-radius: 16px;
+  }
+
+  .panel-top,
+  .panel-bottom {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
   }
 
   .lede,
