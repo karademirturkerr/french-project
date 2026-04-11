@@ -658,6 +658,21 @@ p {
   padding: 30px;
 }
 
+.card-visual {
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid rgba(220, 199, 162, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.card-visual img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  filter: contrast(1.03) brightness(0.9);
+}
+
 .card-tag {
   display: inline-flex;
   margin-bottom: 16px;
