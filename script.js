@@ -199,7 +199,7 @@ if (dailyDrawSection) {
   const getLocalDayNumber = () => {
     const now = new Date();
     const localMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    return Math.floor(localMidnight.getTime() / 86400000);
+    return Math.floor(localMidnight.getTime() / 86400000) + 1;
   };
 
   const setText = (selector, value) => {
