@@ -1003,19 +1003,23 @@ p {
   }
 
   .site-header {
-    position: relative;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    padding-right: 72px;
+    justify-content: space-between;
+    padding-right: 0;
     gap: 14px;
+  }
+
+  .brand {
+    order: 1;
   }
 
   .menu-toggle {
     display: inline-flex;
-    position: absolute;
-    top: 18px;
-    right: 0;
+    position: static;
+    order: 3;
+    margin-left: 0;
   }
 
   .main-nav {
@@ -1023,7 +1027,7 @@ p {
     width: auto;
     margin-top: 0;
     margin-left: auto;
-    margin-right: 72px;
+    margin-right: 0;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
@@ -1033,6 +1037,7 @@ p {
     background: transparent;
     backdrop-filter: none;
     box-shadow: none;
+    order: 2;
   }
 
   .main-nav > a,
@@ -1043,10 +1048,13 @@ p {
   .main-nav .lang-switch {
     width: auto;
     justify-content: center;
+    min-height: 40px;
+    padding: 3px;
   }
 
   .main-nav.is-open {
     display: flex;
+    order: 4;
     width: 100%;
     margin-top: 18px;
     margin-right: 0;
@@ -1097,11 +1105,9 @@ p {
 @media (max-width: 640px) {
   .site-header {
     gap: 10px;
-    padding-right: 66px;
   }
 
   .main-nav {
-    margin-right: 66px;
     gap: 4px;
   }
 
