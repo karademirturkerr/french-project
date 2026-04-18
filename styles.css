@@ -57,7 +57,7 @@ a {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 }
 
 .page-aura {
@@ -82,14 +82,14 @@ a {
 }
 
 .grain {
-  opacity: 0.22;
+  opacity: 0.34;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Crect width='320' height='320' fill='none'/%3E%3Cg fill='%23dcc7a2' fill-opacity='0.18' font-family='Georgia, serif' font-size='20'%3E%3Ctext x='24' y='42'%3E%E1%9A%A0%3C/text%3E%3Ctext x='98' y='66'%3E%E1%9A%B1%3C/text%3E%3Ctext x='174' y='38'%3E%E1%9A%A8%3C/text%3E%3Ctext x='248' y='72'%3E%E1%9A%B7%3C/text%3E%3Ctext x='42' y='132'%3E%E1%9A%BE%3C/text%3E%3Ctext x='128' y='110'%3E%E1%9A%9F%3C/text%3E%3Ctext x='210' y='144'%3E%E1%9A%B9%3C/text%3E%3Ctext x='270' y='118'%3E%E1%9A%A2%3C/text%3E%3Ctext x='34' y='216'%3E%E1%9A%B2%3C/text%3E%3Ctext x='110' y='192'%3E%E1%9A%AC%3C/text%3E%3Ctext x='192' y='226'%3E%E1%9A%BA%3C/text%3E%3Ctext x='262' y='202'%3E%E1%9A%AE%3C/text%3E%3Ctext x='58' y='294'%3E%E1%9A%9A%3C/text%3E%3Ctext x='144' y='272'%3E%E1%9A%B5%3C/text%3E%3Ctext x='226' y='300'%3E%E1%9A%9E%3C/text%3E%3C/g%3E%3C/svg%3E"),
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 320px 320px, 6px 6px, 6px 6px;
   background-position: center top, center, center;
-  mix-blend-mode: soft-light;
+  mix-blend-mode: screen;
 }
 
 .grain::before {
@@ -100,10 +100,12 @@ a {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Crect width='420' height='420' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.065' font-family='Georgia, serif' font-size='16'%3E%3Ctext x='36' y='56'%3E%E1%9A%A0%3C/text%3E%3Ctext x='156' y='88'%3E%E1%9A%B1%3C/text%3E%3Ctext x='292' y='64'%3E%E1%9A%A8%3C/text%3E%3Ctext x='74' y='178'%3E%E1%9A%BE%3C/text%3E%3Ctext x='220' y='152'%3E%E1%9A%9F%3C/text%3E%3Ctext x='330' y='190'%3E%E1%9A%B9%3C/text%3E%3Ctext x='48' y='302'%3E%E1%9A%A2%3C/text%3E%3Ctext x='180' y='270'%3E%E1%9A%AC%3C/text%3E%3Ctext x='312' y='326'%3E%E1%9A%BA%3C/text%3E%3C/g%3E%3C/svg%3E");
   background-size: 420px 420px;
   background-position: center top;
-  opacity: 0.52;
+  opacity: 0.7;
 }
 
 .site-shell {
+  position: relative;
+  z-index: 1;
   width: min(1220px, calc(100% - 32px));
   margin: 0 auto;
 }
