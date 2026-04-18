@@ -134,7 +134,7 @@ a {
   z-index: 40;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 24px;
   padding: 26px 0 18px;
   backdrop-filter: blur(18px);
@@ -172,6 +172,7 @@ a {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 12px;
+  margin-left: 0;
 }
 
 .menu-toggle {
@@ -275,6 +276,10 @@ a {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
   box-shadow: var(--shadow-soft);
+}
+
+.site-header > .lang-switch {
+  margin-left: auto;
 }
 
 .lang-icon {
@@ -1000,6 +1005,7 @@ p {
   .site-header {
     position: relative;
     padding-right: 72px;
+    gap: 14px;
   }
 
   .menu-toggle {
@@ -1028,19 +1034,29 @@ p {
     display: flex;
   }
 
-  .main-nav a,
-  .lang-switch {
+  .main-nav a {
     width: 100%;
   }
 
-  .main-nav .nav-cta,
-  .main-nav .lang-switch {
+  .main-nav .nav-cta {
     justify-content: center;
   }
 
   .main-nav a {
     min-height: 48px;
     justify-content: center;
+    text-align: center;
+  }
+
+  .site-header > .lang-switch {
+    margin-left: auto;
+    margin-right: 72px;
+    min-height: 40px;
+    padding: 3px;
+  }
+
+  .site-header > .lang-switch .lang-link {
+    min-width: 44px;
     text-align: center;
   }
 
@@ -1054,6 +1070,28 @@ p {
 }
 
 @media (max-width: 640px) {
+  .site-header {
+    gap: 10px;
+    padding-right: 66px;
+  }
+
+  .site-header > .lang-switch {
+    margin-right: 66px;
+    gap: 4px;
+    padding: 2px;
+  }
+
+  .site-header > .lang-switch .lang-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .site-header > .lang-switch .lang-link {
+    min-width: 40px;
+    padding: 9px 10px;
+    font-size: 0.85rem;
+  }
+
   .grain {
     opacity: 0.66;
     background-size: 420px 420px, 150px 150px, 180px 180px, 10px 10px, 10px 10px;
