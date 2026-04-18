@@ -1004,6 +1004,9 @@ p {
 
   .site-header {
     position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     padding-right: 72px;
     gap: 14px;
   }
@@ -1016,26 +1019,55 @@ p {
   }
 
   .main-nav {
+    display: flex;
+    width: auto;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: 72px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .main-nav > a,
+  .main-nav > .nav-cta {
     display: none;
+  }
+
+  .main-nav .lang-switch {
+    width: auto;
+    justify-content: center;
+  }
+
+  .main-nav.is-open {
+    display: flex;
     width: 100%;
     margin-top: 18px;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
+    margin-right: 0;
     padding: 16px;
     border: 1px solid rgba(220, 199, 162, 0.16);
     border-radius: 24px;
     background: rgba(10, 10, 11, 0.92);
     backdrop-filter: blur(18px);
     box-shadow: var(--shadow-soft);
-  }
-
-  .main-nav.is-open {
-    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
   }
 
   .main-nav a {
     width: 100%;
+  }
+
+  .main-nav.is-open > a,
+  .main-nav.is-open > .nav-cta {
+    display: flex;
   }
 
   .main-nav .nav-cta {
@@ -1048,16 +1080,9 @@ p {
     text-align: center;
   }
 
-  .site-header > .lang-switch {
-    margin-left: auto;
-    margin-right: 72px;
-    min-height: 40px;
-    padding: 3px;
-  }
-
-  .site-header > .lang-switch .lang-link {
-    min-width: 44px;
-    text-align: center;
+  .main-nav.is-open .lang-switch {
+    width: 100%;
+    order: -1;
   }
 
   .hero-photo-frame {
@@ -1075,21 +1100,24 @@ p {
     padding-right: 66px;
   }
 
-  .site-header > .lang-switch {
+  .main-nav {
     margin-right: 66px;
     gap: 4px;
-    padding: 2px;
   }
 
-  .site-header > .lang-switch .lang-icon {
+  .main-nav .lang-switch .lang-icon {
     width: 26px;
     height: 26px;
   }
 
-  .site-header > .lang-switch .lang-link {
+  .main-nav .lang-switch .lang-link {
     min-width: 40px;
     padding: 9px 10px;
     font-size: 0.85rem;
+  }
+
+  .main-nav.is-open {
+    margin-right: 0;
   }
 
   .grain {
