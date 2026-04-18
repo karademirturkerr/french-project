@@ -31,10 +31,10 @@ body {
   color: var(--text);
   font-family: "Manrope", sans-serif;
   background:
-    radial-gradient(circle at 18% 16%, rgba(220, 199, 162, 0.06), transparent 20%),
-    radial-gradient(circle at 82% 12%, rgba(198, 22, 48, 0.07), transparent 18%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.018), transparent 28%),
-    linear-gradient(180deg, #030304 0%, #070709 38%, #0b0b0d 72%, #101013 100%);
+    radial-gradient(circle at 18% 16%, rgba(220, 199, 162, 0.08), transparent 20%),
+    radial-gradient(circle at 82% 12%, rgba(198, 22, 48, 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 18%),
+    linear-gradient(180deg, #020202 0%, #060607 32%, #0a0a0c 70%, #0f0f12 100%);
   overflow-x: hidden;
 }
 
@@ -82,13 +82,15 @@ a {
 }
 
 .grain {
-  opacity: 0.34;
+  opacity: 0.42;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Crect width='320' height='320' fill='none'/%3E%3Cg fill='%23dcc7a2' fill-opacity='0.18' font-family='Georgia, serif' font-size='20'%3E%3Ctext x='24' y='42'%3E%E1%9A%A0%3C/text%3E%3Ctext x='98' y='66'%3E%E1%9A%B1%3C/text%3E%3Ctext x='174' y='38'%3E%E1%9A%A8%3C/text%3E%3Ctext x='248' y='72'%3E%E1%9A%B7%3C/text%3E%3Ctext x='42' y='132'%3E%E1%9A%BE%3C/text%3E%3Ctext x='128' y='110'%3E%E1%9A%9F%3C/text%3E%3Ctext x='210' y='144'%3E%E1%9A%B9%3C/text%3E%3Ctext x='270' y='118'%3E%E1%9A%A2%3C/text%3E%3Ctext x='34' y='216'%3E%E1%9A%B2%3C/text%3E%3Ctext x='110' y='192'%3E%E1%9A%AC%3C/text%3E%3Ctext x='192' y='226'%3E%E1%9A%BA%3C/text%3E%3Ctext x='262' y='202'%3E%E1%9A%AE%3C/text%3E%3Ctext x='58' y='294'%3E%E1%9A%9A%3C/text%3E%3Ctext x='144' y='272'%3E%E1%9A%B5%3C/text%3E%3Ctext x='226' y='300'%3E%E1%9A%9E%3C/text%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 320px 320px, 6px 6px, 6px 6px;
-  background-position: center top, center, center;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='720' viewBox='0 0 720 720'%3E%3Crect width='720' height='720' fill='none'/%3E%3Cg fill='%23cdb38a' fill-opacity='0.22' font-family='Georgia, serif' font-size='38'%3E%3Ctext x='70' y='96'%3E%E1%9A%A0%3C/text%3E%3Ctext x='254' y='138'%3E%E1%9A%B1%3C/text%3E%3Ctext x='470' y='92'%3E%E1%9A%A8%3C/text%3E%3Ctext x='606' y='150'%3E%E1%9A%B7%3C/text%3E%3Ctext x='108' y='298'%3E%E1%9A%BE%3C/text%3E%3Ctext x='320' y='250'%3E%E1%9A%9F%3C/text%3E%3Ctext x='532' y='320'%3E%E1%9A%B9%3C/text%3E%3Ctext x='620' y='262'%3E%E1%9A%A2%3C/text%3E%3Ctext x='84' y='510'%3E%E1%9A%B2%3C/text%3E%3Ctext x='272' y='456'%3E%E1%9A%AC%3C/text%3E%3Ctext x='468' y='540'%3E%E1%9A%BA%3C/text%3E%3Ctext x='630' y='470'%3E%E1%9A%AE%3C/text%3E%3Ctext x='142' y='656'%3E%E1%9A%9A%3C/text%3E%3Ctext x='352' y='620'%3E%E1%9A%B5%3C/text%3E%3Ctext x='560' y='676'%3E%E1%9A%9E%3C/text%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.028), transparent 16%),
+    radial-gradient(circle at 76% 70%, rgba(255, 255, 255, 0.02), transparent 18%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 720px 720px, 260px 260px, 320px 320px, 14px 14px, 14px 14px;
+  background-position: center top, center, center, center, center;
   mix-blend-mode: screen;
 }
 
@@ -97,10 +99,22 @@ a {
   position: absolute;
   inset: 0;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Crect width='420' height='420' fill='none'/%3E%3Cg fill='%23ffffff' fill-opacity='0.065' font-family='Georgia, serif' font-size='16'%3E%3Ctext x='36' y='56'%3E%E1%9A%A0%3C/text%3E%3Ctext x='156' y='88'%3E%E1%9A%B1%3C/text%3E%3Ctext x='292' y='64'%3E%E1%9A%A8%3C/text%3E%3Ctext x='74' y='178'%3E%E1%9A%BE%3C/text%3E%3Ctext x='220' y='152'%3E%E1%9A%9F%3C/text%3E%3Ctext x='330' y='190'%3E%E1%9A%B9%3C/text%3E%3Ctext x='48' y='302'%3E%E1%9A%A2%3C/text%3E%3Ctext x='180' y='270'%3E%E1%9A%AC%3C/text%3E%3Ctext x='312' y='326'%3E%E1%9A%BA%3C/text%3E%3C/g%3E%3C/svg%3E");
-  background-size: 420px 420px;
-  background-position: center top;
-  opacity: 0.7;
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent 16%, transparent 84%, rgba(0, 0, 0, 0.22)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Crect width='520' height='520' fill='none'/%3E%3Cg stroke='%23f0e1c3' stroke-opacity='0.08' stroke-width='2' fill='none'%3E%3Cpath d='M20 120H500'/%3E%3Cpath d='M20 260H500'/%3E%3Cpath d='M20 400H500'/%3E%3Cpath d='M120 20V500'/%3E%3Cpath d='M260 20V500'/%3E%3Cpath d='M400 20V500'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover, 520px 520px;
+  background-position: center, center top;
+  opacity: 0.82;
+  mix-blend-mode: soft-light;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(220, 199, 162, 0.06), transparent 22%),
+    radial-gradient(circle at 50% 80%, rgba(0, 0, 0, 0.28), transparent 24%);
+  opacity: 0.85;
 }
 
 .site-shell {
