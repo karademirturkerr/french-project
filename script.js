@@ -118,7 +118,13 @@ if (contactTriggers.length) {
           </span>
         </a>
         <a class="contact-option contact-option--instagram" href="${targets.instagram}" target="_blank" rel="noreferrer">
-          <span class="contact-option__icon" aria-hidden="true">◌</span>
+          <span class="contact-option__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <rect x="4.25" y="4.25" width="15.5" height="15.5" rx="4.5"></rect>
+              <circle cx="12" cy="12" r="3.6"></circle>
+              <circle cx="17.3" cy="6.8" r="1.1" class="contact-option__dot"></circle>
+            </svg>
+          </span>
           <span class="contact-option__content">
             <strong>${copy.instagramLabel}</strong>
             <span>${copy.instagramText}</span>
