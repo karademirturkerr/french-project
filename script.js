@@ -111,7 +111,11 @@ if (contactTriggers.length) {
       <p class="contact-modal__text">${copy.body}</p>
       <div class="contact-modal__actions">
         <a class="contact-option contact-option--telegram" href="${targets.telegram}" target="_blank" rel="noreferrer">
-          <span class="contact-option__icon" aria-hidden="true">✦</span>
+          <span class="contact-option__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M20.2 5.2 17.9 18c-.16.91-.67 1.13-1.42.72l-4.13-3.05-1.99 1.92c-.22.22-.4.4-.83.4l.29-4.19 7.63-6.89c.33-.3-.07-.47-.52-.17l-9.42 5.93-4.06-1.27c-.88-.27-.9-.88.18-1.31L19 4.47c.75-.28 1.4.18 1.2.73Z"></path>
+            </svg>
+          </span>
           <span class="contact-option__content">
             <strong>${copy.telegramLabel}</strong>
             <span>${copy.telegramText}</span>
