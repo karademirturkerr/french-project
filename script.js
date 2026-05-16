@@ -121,7 +121,7 @@ if (contactTriggers.length) {
             <span>${copy.telegramText}</span>
           </span>
         </a>
-        <a class="contact-option contact-option--instagram" href="${targets.instagram}" target="_blank" rel="noreferrer">
+        <a class="contact-option contact-option--instagram" href="https://www.instagram.com/dimitrispiritual/" target="_blank" rel="noreferrer">
           <span class="contact-option__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
               <rect x="4.25" y="4.25" width="15.5" height="15.5" rx="4.5"></rect>
@@ -150,6 +150,23 @@ if (contactTriggers.length) {
     document.body.classList.remove("contact-modal-open");
   };
 
+  const openInstagramAppFirst = (event) => {
+    event.preventDefault();
+    closeContactModal();
+
+    const appUrl = "instagram://user?username=dimitrispiritual";
+    const fallbackUrl = "https://www.instagram.com/dimitrispiritual/";
+    const startedAt = Date.now();
+
+    window.location.href = appUrl;
+
+    window.setTimeout(() => {
+      if (Date.now() - startedAt < 1600) {
+        window.open(fallbackUrl, "_blank", "noopener,noreferrer");
+      }
+    }, 900);
+  };
+
   contactTriggers.forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
@@ -160,6 +177,11 @@ if (contactTriggers.length) {
   modal.querySelectorAll("[data-contact-close]").forEach((element) => {
     element.addEventListener("click", closeContactModal);
   });
+
+  const instagramOption = modal.querySelector(".contact-option--instagram");
+  if (instagramOption) {
+    instagramOption.addEventListener("click", openInstagramAppFirst);
+  }
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modal.hasAttribute("hidden")) {
