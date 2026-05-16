@@ -42,6 +42,10 @@ body.menu-open {
   overflow: hidden;
 }
 
+body.contact-modal-open {
+  overflow: hidden;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -317,6 +321,167 @@ a {
 .lang-link.is-active {
   color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.contact-modal[hidden] {
+  display: none;
+}
+
+.contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+}
+
+.contact-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top, rgba(140, 18, 38, 0.18), transparent 42%),
+    rgba(4, 4, 5, 0.74);
+  backdrop-filter: blur(16px);
+}
+
+.contact-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(640px, calc(100% - 28px));
+  margin: min(10vh, 96px) auto 0;
+  padding: 34px 30px 28px;
+  border: 1px solid rgba(220, 199, 162, 0.16);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top left, rgba(125, 15, 31, 0.22), transparent 38%),
+    linear-gradient(145deg, rgba(15, 14, 16, 0.98), rgba(22, 18, 20, 0.94));
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.contact-modal__dialog::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(220, 199, 162, 0.08);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.contact-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(220, 199, 162, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.contact-modal__close span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.contact-modal__close span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.contact-modal__close span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.contact-modal__eyebrow {
+  margin: 0 0 12px;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.contact-modal__title {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.98;
+}
+
+.contact-modal__text {
+  max-width: 48ch;
+  margin: 16px 0 0;
+  color: var(--muted);
+}
+
+.contact-modal__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.contact-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 132px;
+  padding: 20px;
+  border: 1px solid rgba(220, 199, 162, 0.14);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(125, 15, 31, 0.08)),
+    rgba(10, 10, 11, 0.8);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.contact-option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(220, 199, 162, 0.26);
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.28);
+}
+
+.contact-option__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  color: var(--gold);
+  background: radial-gradient(circle at 30% 30%, rgba(220, 199, 162, 0.24), rgba(125, 15, 31, 0.08));
+  font-size: 1.15rem;
+  flex: 0 0 54px;
+}
+
+.contact-option__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-option__content strong {
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.contact-option__content span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.contact-option--telegram .contact-option__icon {
+  box-shadow: 0 0 24px rgba(76, 169, 255, 0.16);
+}
+
+.contact-option--instagram .contact-option__icon {
+  box-shadow: 0 0 24px rgba(233, 89, 80, 0.16);
 }
 
 .sr-only {
@@ -1116,6 +1281,46 @@ p {
 }
 
 @media (max-width: 640px) {
+  .contact-modal__dialog {
+    width: calc(100% - 18px);
+    margin-top: 18px;
+    padding: 24px 18px 18px;
+    border-radius: 24px;
+  }
+
+  .contact-modal__dialog::before {
+    inset: 10px;
+    border-radius: 18px;
+  }
+
+  .contact-modal__title {
+    max-width: 100%;
+    font-size: clamp(1.7rem, 9vw, 2.2rem);
+  }
+
+  .contact-modal__text {
+    font-size: 0.95rem;
+  }
+
+  .contact-modal__actions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .contact-option {
+    min-height: 108px;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .contact-option__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    flex-basis: 48px;
+  }
+
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto auto;
     gap: 10px;

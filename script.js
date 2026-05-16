@@ -54,6 +54,110 @@ menuToggles.forEach((button) => {
   });
 });
 
+const htmlLang = document.documentElement.lang === "fr" ? "fr" : "tr";
+
+const contactCopy = {
+  tr: {
+    title: "Dimitri ile nasıl iletişime geçmek istersin?",
+    body: "Telegram hesabın yoksa sorun değil. Sana en uygun kanalı seç, Dimitri seni orada karşılasın.",
+    telegramLabel: "Telegram ile yaz",
+    telegramText: "Hızlı ve doğrudan özel mesaj",
+    instagramLabel: "Instagram ile yaz",
+    instagramText: "DM üzerinden iletişime geç",
+    closeLabel: "Kapat"
+  },
+  fr: {
+    title: "Par quel canal souhaitez-vous écrire à Dimitri ?",
+    body: "Si vous n'avez pas Telegram, aucun souci. Choisissez simplement le canal qui vous convient le mieux.",
+    telegramLabel: "Écrire via Telegram",
+    telegramText: "Message privé rapide et direct",
+    instagramLabel: "Écrire via Instagram",
+    instagramText: "Prise de contact en message privé",
+    closeLabel: "Fermer"
+  }
+};
+
+const contactTargets = {
+  tr: {
+    telegram: "https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F",
+    instagram: "https://ig.me/m/dimitrispiritual"
+  },
+  fr: {
+    telegram: "https://t.me/ruhsaldanismandimitri?text=Bonjour%20Dimitri%2C%20comment%20allez-vous%20%3F",
+    instagram: "https://ig.me/m/dimitrispiritual"
+  }
+};
+
+const contactTriggers = Array.from(
+  document.querySelectorAll('a[href*="t.me/ruhsaldanismandimitri"]')
+).filter((link) => /Dimitri'ye Yaz|Dimitri’ye Yaz|Écrire à Dimitri/i.test(link.textContent.trim()));
+
+if (contactTriggers.length) {
+  const copy = contactCopy[htmlLang];
+  const targets = contactTargets[htmlLang];
+
+  const modal = document.createElement("div");
+  modal.className = "contact-modal";
+  modal.setAttribute("hidden", "");
+  modal.innerHTML = `
+    <div class="contact-modal__backdrop" data-contact-close></div>
+    <div class="contact-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      <button class="contact-modal__close" type="button" aria-label="${copy.closeLabel}" data-contact-close>
+        <span></span>
+        <span></span>
+      </button>
+      <p class="contact-modal__eyebrow">Dimitri Spiritual</p>
+      <h2 class="contact-modal__title" id="contact-modal-title">${copy.title}</h2>
+      <p class="contact-modal__text">${copy.body}</p>
+      <div class="contact-modal__actions">
+        <a class="contact-option contact-option--telegram" href="${targets.telegram}" target="_blank" rel="noreferrer">
+          <span class="contact-option__icon" aria-hidden="true">✦</span>
+          <span class="contact-option__content">
+            <strong>${copy.telegramLabel}</strong>
+            <span>${copy.telegramText}</span>
+          </span>
+        </a>
+        <a class="contact-option contact-option--instagram" href="${targets.instagram}" target="_blank" rel="noreferrer">
+          <span class="contact-option__icon" aria-hidden="true">◌</span>
+          <span class="contact-option__content">
+            <strong>${copy.instagramLabel}</strong>
+            <span>${copy.instagramText}</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const openContactModal = () => {
+    modal.removeAttribute("hidden");
+    document.body.classList.add("contact-modal-open");
+  };
+
+  const closeContactModal = () => {
+    modal.setAttribute("hidden", "");
+    document.body.classList.remove("contact-modal-open");
+  };
+
+  contactTriggers.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openContactModal();
+    });
+  });
+
+  modal.querySelectorAll("[data-contact-close]").forEach((element) => {
+    element.addEventListener("click", closeContactModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hasAttribute("hidden")) {
+      closeContactModal();
+    }
+  });
+}
+
 const dailyDrawSection = document.querySelector("[data-daily-draw]");
 
 if (dailyDrawSection) {
