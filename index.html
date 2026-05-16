@@ -7,7 +7,13 @@
   <meta name="description" content="Dimitri propose un univers de guidance spirituelle, de cartomancie intuitive et d'écrits symboliques pour celles et ceux qui cherchent un éclairage sensible.">
   <script>
     if (window.location.pathname === "/") {
-      window.location.replace("/index-tr.html");
+      let preferredLang = "tr";
+      try {
+        preferredLang = window.localStorage.getItem("dimitriPreferredLang") || "tr";
+      } catch (error) {
+        preferredLang = "tr";
+      }
+      window.location.replace(preferredLang === "fr" ? "/index.html" : "/index-tr.html");
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -56,6 +56,29 @@ menuToggles.forEach((button) => {
 
 const htmlLang = document.documentElement.lang === "fr" ? "fr" : "tr";
 
+try {
+  window.localStorage.setItem("dimitriPreferredLang", htmlLang);
+} catch (error) {
+  // Ignore storage issues and keep the current page language.
+}
+
+const languageLinks = document.querySelectorAll(".lang-link");
+
+languageLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const href = link.getAttribute("href") || "";
+    const nextLang = /(?:^|\/)(?:index|articles|tirage|privacy|legal|about)(-tr)?\.html$/i.test(href)
+      ? (href.includes("-tr") ? "tr" : "fr")
+      : (link.textContent.trim().toLowerCase() === "tr" ? "tr" : "fr");
+
+    try {
+      window.localStorage.setItem("dimitriPreferredLang", nextLang);
+    } catch (error) {
+      // Ignore storage issues and allow normal navigation.
+    }
+  });
+});
+
 const contactCopy = {
   tr: {
     title: "Dimitri ile nasıl iletişime geçmek istersin?",
