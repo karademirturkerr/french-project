@@ -1,4 +1,4 @@
-﻿const sliders = document.querySelectorAll("[data-slider]");
+const sliders = document.querySelectorAll("[data-slider]");
 
 sliders.forEach((slider) => {
   const track = slider.querySelector(".slider-track");
@@ -56,30 +56,53 @@ menuToggles.forEach((button) => {
 
 const htmlLang = document.documentElement.lang === "fr" ? "fr" : "tr";
 
+try {
+  window.localStorage.setItem("dimitriPreferredLang", htmlLang);
+} catch (error) {
+  // Ignore storage issues and keep the current page language.
+}
+
+const languageLinks = document.querySelectorAll(".lang-link");
+
+languageLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const href = link.getAttribute("href") || "";
+    const nextLang = /(?:^|\/)(?:index|articles|tirage|privacy|legal|about)(-tr)?\.html$/i.test(href)
+      ? (href.includes("-tr") ? "tr" : "fr")
+      : (link.textContent.trim().toLowerCase() === "tr" ? "tr" : "fr");
+
+    try {
+      window.localStorage.setItem("dimitriPreferredLang", nextLang);
+    } catch (error) {
+      // Ignore storage issues and allow normal navigation.
+    }
+  });
+});
+
 const contactCopy = {
   tr: {
-    title: "Dimitri ile nasÄ±l iletiÅŸime geÃ§mek istersin?",
-    body: "Telegram hesabÄ±n yoksa sorun deÄŸil. Sana en uygun kanalÄ± seÃ§, Dimitri seni orada karÅŸÄ±lasÄ±n.",
+    title: "Dimitri ile nasıl iletişime geçmek istersin?",
+    body: "Telegram hesabın yoksa sorun değil. Sana en uygun kanalı seç, Dimitri seni orada karşılasın.",
     telegramLabel: "Telegram ile yaz",
-    telegramText: "HÄ±zlÄ± ve doÄŸrudan Ã¶zel mesaj",
+    telegramText: "Hızlı ve doğrudan özel mesaj",
     instagramLabel: "Instagram ile yaz",
-    instagramText: "DM Ã¼zerinden iletiÅŸime geÃ§",
+    instagramText: "DM üzerinden iletişime geç",
     closeLabel: "Kapat"
   },
   fr: {
-    title: "Par quel canal souhaitez-vous Ã©crire Ã  Dimitri ?",
+    title: "Par quel canal souhaitez-vous écrire à Dimitri ?",
     body: "Si vous n'avez pas Telegram, aucun souci. Choisissez simplement le canal qui vous convient le mieux.",
-    telegramLabel: "Ã‰crire via Telegram",
-    telegramText: "Message privÃ© rapide et direct",
-    instagramLabel: "Ã‰crire via Instagram",
-    instagramText: "Prise de contact en message privÃ©",
+    telegramLabel: "Écrire via Telegram",
+    telegramText: "Message privé rapide et direct",
+    instagramLabel: "Écrire via Instagram",
+    instagramText: "Prise de contact en message privé",
     closeLabel: "Fermer"
   }
 };
 
 const contactTargets = {
   tr: {
-    telegram: "https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20NasÄ±lsÄ±n%3F",
+    telegram: "https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F",
     instagram: "https://ig.me/m/dimitrispiritual"
   },
   fr: {
@@ -90,7 +113,7 @@ const contactTargets = {
 
 const contactTriggers = Array.from(
   document.querySelectorAll('a[href*="t.me/ruhsaldanismandimitri"]')
-).filter((link) => /Dimitri'ye Yaz|Dimitriâ€™ye Yaz|Ã‰crire Ã  Dimitri/i.test(link.textContent.trim()));
+).filter((link) => /Dimitri'ye Yaz|Dimitri’ye Yaz|Écrire à Dimitri/i.test(link.textContent.trim()));
 
 if (contactTriggers.length) {
   const copy = contactCopy[htmlLang];
@@ -197,137 +220,137 @@ if (dailyDrawSection) {
     tr: [
       {
         name: "Ay",
-        text1: "BugÃ¼n henÃ¼z tam netleÅŸmemiÅŸ ama derinden hissedilen her ÅŸeyi gÃ¶rÃ¼nÃ¼r kÄ±lÄ±yor. Bu; Ä±srarla geri gelen bir sezgi, tekrarlayan bir rÃ¼ya ya da form arayan iÃ§sel bir hareket olabilir.",
-        text2: "KesinliÄŸi zorlayacaÄŸÄ±n bir gÃ¼n deÄŸil; nÃ¼anslarÄ± dinleyeceÄŸin, iÅŸaretleri gÃ¶zlemleyeceÄŸin ve bilincinin Ã§oktan bildiÄŸi ÅŸeyi yavaÅŸÃ§a aÃ§Ä±ÄŸa Ã§Ä±karacaÄŸÄ±n bir gÃ¼n.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "YÃ¼kselen bir duyguyu hissedip yine de onun sebebini ya da yÃ¶nÃ¼nÃ¼ hemen tanÄ±mlayamayan kiÅŸilerde.",
+        text1: "Bugün henüz tam netleşmemiş ama derinden hissedilen her şeyi görünür kılıyor. Bu; ısrarla geri gelen bir sezgi, tekrarlayan bir rüya ya da form arayan içsel bir hareket olabilir.",
+        text2: "Kesinliği zorlayacağın bir gün değil; nüansları dinleyeceğin, işaretleri gözlemleyeceğin ve bilincinin çoktan bildiği şeyi yavaşça açığa çıkaracağın bir gün.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "Yükselen bir duyguyu hissedip yine de onun sebebini ya da yönünü hemen tanımlayamayan kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "Son zamanlarda tekrar tekrar gelen hangi hissi kÃ¼Ã§Ã¼msedim?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "EÄŸer bu kart sende gÃ¼Ã§lÃ¼ bir karÅŸÄ±lÄ±k bulduysa, Ã¶zel mesajla daha kiÅŸisel bir yorum isteyebilirsin."
+        questionText: "Son zamanlarda tekrar tekrar gelen hangi hissi küçümsedim?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "Eğer bu kart sende güçlü bir karşılık bulduysa, özel mesajla daha kişisel bir yorum isteyebilirsin."
       },
       {
-        name: "GÃ¼neÅŸ",
-        text1: "BugÃ¼n gÃ¶rÃ¼nÃ¼rlÃ¼k, aÃ§Ä±klÄ±k ve yaÅŸam enerjisi Ã¶ne Ã§Ä±kÄ±yor. Ä°Ã§inde tuttuÄŸun bir ÅŸey artÄ±k daha net biÃ§imde adÄ±nÄ± isteyebilir.",
-        text2: "Kendini kÃ¼Ã§Ã¼ltmek yerine Ä±ÅŸÄ±ÄŸÄ±nÄ± daha dÃ¼rÃ¼stÃ§e taÅŸÄ±man gereken bir gÃ¼n. Sevincin de en az korkularÄ±n kadar ciddiye alÄ±nmalÄ±.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "Uzun sÃ¼redir beklediÄŸi netliÄŸi sonunda hissetmeye baÅŸlayan kiÅŸilerde.",
+        name: "Güneş",
+        text1: "Bugün görünürlük, açıklık ve yaşam enerjisi öne çıkıyor. İçinde tuttuğun bir şey artık daha net biçimde adını isteyebilir.",
+        text2: "Kendini küçültmek yerine ışığını daha dürüstçe taşıman gereken bir gün. Sevincin de en az korkuların kadar ciddiye alınmalı.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "Uzun süredir beklediği netliği sonunda hissetmeye başlayan kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "BugÃ¼n hangi tarafÄ±mÄ± saklamadan gÃ¶rÃ¼nÃ¼r kÄ±labilirim?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "Bu kart sende yeni bir aÃ§Ä±klÄ±k alanÄ± aÃ§tÄ±ysa, Dimitri ile bunu daha kiÅŸisel bir Ã§erÃ§evede konuÅŸabilirsin."
+        questionText: "Bugün hangi tarafımı saklamadan görünür kılabilirim?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "Bu kart sende yeni bir açıklık alanı açtıysa, Dimitri ile bunu daha kişisel bir çerçevede konuşabilirsin."
       },
       {
-        name: "ErmiÅŸ",
-        text1: "BugÃ¼n cevap dÄ±ÅŸarÄ±da deÄŸil, daha Ã§ok iÃ§ sessizlikte bulunuyor. Geri Ã§ekilmek, kaybolmak deÄŸil; daha doÄŸru duymak anlamÄ±na geliyor.",
-        text2: "Her davete yetiÅŸmen gerekmiyor. BazÄ± hakikatler ancak yalnÄ±zlÄ±kla temas ettiÄŸinde ÅŸekil kazanÄ±r.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "KalabalÄ±ÄŸÄ±n iÃ§inde bile iÃ§sel mesafe ihtiyacÄ± hisseden kiÅŸilerde.",
+        name: "Ermiş",
+        text1: "Bugün cevap dışarıda değil, daha çok iç sessizlikte bulunuyor. Geri çekilmek, kaybolmak değil; daha doğru duymak anlamına geliyor.",
+        text2: "Her davete yetişmen gerekmiyor. Bazı hakikatler ancak yalnızlıkla temas ettiğinde şekil kazanır.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "Kalabalığın içinde bile içsel mesafe ihtiyacı hisseden kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "BugÃ¼n gerÃ§ekten neyi duymak iÃ§in yavaÅŸlamam gerekiyor?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "Ä°Ã§ine dÃ¶nme isteÄŸin arttÄ±ysa, Dimitri bu sessizliÄŸin ne anlattÄ±ÄŸÄ±nÄ± birlikte yorumlayabilir."
+        questionText: "Bugün gerçekten neyi duymak için yavaşlamam gerekiyor?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "İçine dönme isteğin arttıysa, Dimitri bu sessizliğin ne anlattığını birlikte yorumlayabilir."
       },
       {
-        name: "AÅŸÄ±klar",
-        text1: "BugÃ¼n kalp, seÃ§im ve iÃ§sel uyum temalarÄ± Ã¶ne Ã§Ä±kÄ±yor. Mesele yalnÄ±zca biri deÄŸil; neyle gerÃ§ekten hizalandÄ±ÄŸÄ±n.",
-        text2: "Bir baÄŸÄ±n sana ne hissettirdiÄŸi kadar, sende hangi parÃ§ayÄ± uyandÄ±rdÄ±ÄŸÄ± da Ã¶nemli. SeÃ§im bazen bir kiÅŸiyi deÄŸil, kendi yÃ¶nÃ¼nÃ¼ seÃ§mektir.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "Ä°liÅŸkiler, duygusal kararlar ve baÄŸlanma biÃ§imleri Ã¼zerine dÃ¼ÅŸÃ¼nen kiÅŸilerde.",
+        name: "Aşıklar",
+        text1: "Bugün kalp, seçim ve içsel uyum temaları öne çıkıyor. Mesele yalnızca biri değil; neyle gerçekten hizalandığın.",
+        text2: "Bir bağın sana ne hissettirdiği kadar, sende hangi parçayı uyandırdığı da önemli. Seçim bazen bir kişiyi değil, kendi yönünü seçmektir.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "İlişkiler, duygusal kararlar ve bağlanma biçimleri üzerine düşünen kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "BugÃ¼n kalbim ile korkum arasÄ±nda hangi seÃ§imde duruyorum?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "Bu kart duygusal hayatÄ±nda bir dÃ¼ÄŸÃ¼me dokunduysa, Dimitri ile bunu daha yakÄ±ndan ele alabilirsin."
+        questionText: "Bugün kalbim ile korkum arasında hangi seçimde duruyorum?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "Bu kart duygusal hayatında bir düğüme dokunduysa, Dimitri ile bunu daha yakından ele alabilirsin."
       },
       {
         name: "Kule",
-        text1: "BugÃ¼n saÄŸlam sandÄ±ÄŸÄ±n bir ÅŸeyin Ã§atladÄ±ÄŸÄ±nÄ± fark edebilirsin. Bu yÄ±kÄ±m deÄŸil; artÄ±k taÅŸÄ±namayan yapÄ±nÄ±n dÃ¼rÃ¼stÃ§e gÃ¶rÃ¼nmesidir.",
-        text2: "GerÃ§eÄŸi geciktiren her ÅŸey bir noktada Ã§Ã¶zÃ¼lÃ¼r. SarsÄ±lmak bazen Ã¶zgÃ¼rleÅŸmenin ilk biÃ§imidir.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "HayatÄ±nda ani kopuÅŸlar, fark ediÅŸler ya da sert yÃ¼zleÅŸmeler yaÅŸayan kiÅŸilerde.",
+        text1: "Bugün sağlam sandığın bir şeyin çatladığını fark edebilirsin. Bu yıkım değil; artık taşınamayan yapının dürüstçe görünmesidir.",
+        text2: "Gerçeği geciktiren her şey bir noktada çözülür. Sarsılmak bazen özgürleşmenin ilk biçimidir.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "Hayatında ani kopuşlar, fark edişler ya da sert yüzleşmeler yaşayan kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "BugÃ¼n Ã§Ã¶ken ÅŸey gerÃ§ekten kayÄ±p mÄ±, yoksa fazlalÄ±k mÄ±?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "SarsÄ±cÄ± bir sÃ¼reÃ§ten geÃ§iyorsan, Dimitri bu kartÄ±n sende neyi dÃ¶nÃ¼ÅŸtÃ¼rdÃ¼ÄŸÃ¼nÃ¼ birlikte okuyabilir."
+        questionText: "Bugün çöken şey gerçekten kayıp mı, yoksa fazlalık mı?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "Sarsıcı bir süreçten geçiyorsan, Dimitri bu kartın sende neyi dönüştürdüğünü birlikte okuyabilir."
       },
       {
-        name: "YÄ±ldÄ±z",
-        text1: "BugÃ¼n iyileÅŸme, umut ve zarif bir yeniden doÄŸuÅŸ enerjisi taÅŸÄ±yor. Kalbin uzun zamandÄ±r beklediÄŸi yumuÅŸaklÄ±k gÃ¶rÃ¼nÃ¼r olabilir.",
-        text2: "Her ÅŸey bir anda dÃ¼zelmek zorunda deÄŸil. Bazen sadece yeniden inanabilmek bile yÃ¶n deÄŸiÅŸtiren bir mucizedir.",
-        audienceTitle: "Kimlerde yankÄ± uyandÄ±rÄ±r",
-        audienceText: "YorgunluÄŸun ardÄ±ndan yeniden nefes almaya baÅŸlayan kiÅŸilerde.",
+        name: "Yıldız",
+        text1: "Bugün iyileşme, umut ve zarif bir yeniden doğuş enerjisi taşıyor. Kalbin uzun zamandır beklediği yumuşaklık görünür olabilir.",
+        text2: "Her şey bir anda düzelmek zorunda değil. Bazen sadece yeniden inanabilmek bile yön değiştiren bir mucizedir.",
+        audienceTitle: "Kimlerde yankı uyandırır",
+        audienceText: "Yorgunluğun ardından yeniden nefes almaya başlayan kişilerde.",
         questionTitle: "Sorulacak soru",
-        questionText: "BugÃ¼n iÃ§imde yeniden filizlenen o ince umut ne sÃ¶ylÃ¼yor?",
-        ctaTitle: "OkumayÄ± derinleÅŸtirmek",
-        ctaText: "Bu kart sana bir toparlanma hissi veriyorsa, Dimitri ile bu iyileÅŸme Ã§izgisini daha net okuyabilirsin."
+        questionText: "Bugün içimde yeniden filizlenen o ince umut ne söylüyor?",
+        ctaTitle: "Okumayı derinleştirmek",
+        ctaText: "Bu kart sana bir toparlanma hissi veriyorsa, Dimitri ile bu iyileşme çizgisini daha net okuyabilirsin."
       }
     ],
     fr: [
       {
         name: "La Lune",
-        text1: "Cette journÃ©e met en relief ce qui n'est pas encore entiÃ¨rement clair, mais dÃ©jÃ  profondÃ©ment ressenti. Il peut s'agir d'une intuition persistante, d'un rÃªve rÃ©current ou d'un mouvement intÃ©rieur qui cherche encore sa forme.",
-        text2: "Ce n'est pas un moment pour forcer la certitude ; c'est un temps pour Ã©couter les nuances, observer les signes et laisser Ã©merger ce que votre conscience sait dÃ©jÃ  sans encore l'avoir pleinement formulÃ©.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour celles et ceux qui sentent monter une Ã©motion sans parvenir encore Ã  en dÃ©finir l'origine ou la destination.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Quel ressenti ai-je minimisÃ© rÃ©cemment alors qu'il revenait avec insistance ?",
+        text1: "Cette journée met en relief ce qui n'est pas encore entièrement clair, mais déjà profondément ressenti. Il peut s'agir d'une intuition persistante, d'un rêve récurrent ou d'un mouvement intérieur qui cherche encore sa forme.",
+        text2: "Ce n'est pas un moment pour forcer la certitude ; c'est un temps pour écouter les nuances, observer les signes et laisser émerger ce que votre conscience sait déjà sans encore l'avoir pleinement formulé.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour celles et ceux qui sentent monter une émotion sans parvenir encore à en définir l'origine ou la destination.",
+        questionTitle: "Question à se poser",
+        questionText: "Quel ressenti ai-je minimisé récemment alors qu'il revenait avec insistance ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si cette carte vous touche avec intensitÃ©, vous pouvez demander Ã  Dimitri une lecture plus personnelle par message privÃ©."
+        ctaText: "Si cette carte vous touche avec intensité, vous pouvez demander à Dimitri une lecture plus personnelle par message privé."
       },
       {
         name: "Le Soleil",
-        text1: "Aujourd'hui, la clartÃ©, la visibilitÃ© et l'Ã©nergie vitale prennent davantage de place. Quelque chose que vous reteniez en vous pourrait demander Ã  Ãªtre nommÃ© plus franchement.",
-        text2: "C'est un jour pour cesser de vous rÃ©duire. Votre joie mÃ©rite autant d'Ãªtre prise au sÃ©rieux que vos peurs.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour les personnes qui commencent enfin Ã  ressentir la clartÃ© qu'elles attendaient depuis longtemps.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Quelle part de moi puis-je laisser apparaÃ®tre aujourd'hui sans me diminuer ?",
+        text1: "Aujourd'hui, la clarté, la visibilité et l'énergie vitale prennent davantage de place. Quelque chose que vous reteniez en vous pourrait demander à être nommé plus franchement.",
+        text2: "C'est un jour pour cesser de vous réduire. Votre joie mérite autant d'être prise au sérieux que vos peurs.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour les personnes qui commencent enfin à ressentir la clarté qu'elles attendaient depuis longtemps.",
+        questionTitle: "Question à se poser",
+        questionText: "Quelle part de moi puis-je laisser apparaître aujourd'hui sans me diminuer ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si cette carte ouvre un espace plus lumineux en vous, Dimitri peut vous aider Ã  en lire le sens plus intimement."
+        ctaText: "Si cette carte ouvre un espace plus lumineux en vous, Dimitri peut vous aider à en lire le sens plus intimement."
       },
       {
         name: "L'Hermite",
-        text1: "Aujourd'hui, la rÃ©ponse ne se trouve pas Ã  l'extÃ©rieur, mais dans un silence plus intÃ©rieur. Se retirer n'est pas se perdre ; c'est parfois la seule maniÃ¨re d'entendre plus juste.",
-        text2: "Vous n'avez pas besoin de rÃ©pondre Ã  toutes les sollicitations. Certaines vÃ©ritÃ©s ne prennent forme qu'au contact de la solitude.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour celles et ceux qui ressentent le besoin de garder une distance intÃ©rieure, mÃªme au milieu du monde.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Que dois-je ralentir aujourd'hui pour entendre ce qui cherche vraiment Ã  se dire ?",
+        text1: "Aujourd'hui, la réponse ne se trouve pas à l'extérieur, mais dans un silence plus intérieur. Se retirer n'est pas se perdre ; c'est parfois la seule manière d'entendre plus juste.",
+        text2: "Vous n'avez pas besoin de répondre à toutes les sollicitations. Certaines vérités ne prennent forme qu'au contact de la solitude.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour celles et ceux qui ressentent le besoin de garder une distance intérieure, même au milieu du monde.",
+        questionTitle: "Question à se poser",
+        questionText: "Que dois-je ralentir aujourd'hui pour entendre ce qui cherche vraiment à se dire ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si le besoin de retour Ã  vous-mÃªme devient plus fort, Dimitri peut vous aider Ã  comprendre ce que ce silence cherche Ã  rÃ©vÃ©ler."
+        ctaText: "Si le besoin de retour à vous-même devient plus fort, Dimitri peut vous aider à comprendre ce que ce silence cherche à révéler."
       },
       {
         name: "Les Amoureux",
-        text1: "Aujourd'hui, le cÅ“ur, le choix et l'accord intÃ©rieur prennent le devant de la scÃ¨ne. La question n'est pas seulement de savoir avec qui, mais avec quoi vous Ãªtes rÃ©ellement alignÃ©.",
-        text2: "Ce qu'un lien Ã©veille en vous compte autant que ce qu'il promet. Choisir, ce n'est pas toujours choisir une personne ; c'est parfois choisir sa propre direction.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour les personnes qui rÃ©flÃ©chissent Ã  leurs liens, Ã  leurs dÃ©cisions affectives et Ã  leur maniÃ¨re de s'attacher.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Entre mon cÅ“ur et ma peur, dans quel choix suis-je en train de me tenir ?",
+        text1: "Aujourd'hui, le cœur, le choix et l'accord intérieur prennent le devant de la scène. La question n'est pas seulement de savoir avec qui, mais avec quoi vous êtes réellement aligné.",
+        text2: "Ce qu'un lien éveille en vous compte autant que ce qu'il promet. Choisir, ce n'est pas toujours choisir une personne ; c'est parfois choisir sa propre direction.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour les personnes qui réfléchissent à leurs liens, à leurs décisions affectives et à leur manière de s'attacher.",
+        questionTitle: "Question à se poser",
+        questionText: "Entre mon cœur et ma peur, dans quel choix suis-je en train de me tenir ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si cette carte touche un nÅ“ud dans votre vie affective, Dimitri peut vous aider Ã  le lire avec plus de prÃ©cision."
+        ctaText: "Si cette carte touche un nœud dans votre vie affective, Dimitri peut vous aider à le lire avec plus de précision."
       },
       {
         name: "La Tour",
-        text1: "Aujourd'hui, quelque chose que vous croyiez stable peut rÃ©vÃ©ler sa fissure. Ce n'est pas forcÃ©ment une destruction, mais la vÃ©ritÃ© d'une structure qui ne pouvait plus tenir ainsi.",
-        text2: "Tout ce qui retarde le rÃ©el finit un jour par cÃ©der. ÃŠtre secouÃ© est parfois la premiÃ¨re forme de libÃ©ration.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour celles et ceux qui traversent une rupture soudaine, une prise de conscience forte ou un face-Ã -face brutal avec le rÃ©el.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Ce qui s'effondre aujourd'hui est-il rÃ©ellement une perte, ou une charge devenue inutile ?",
+        text1: "Aujourd'hui, quelque chose que vous croyiez stable peut révéler sa fissure. Ce n'est pas forcément une destruction, mais la vérité d'une structure qui ne pouvait plus tenir ainsi.",
+        text2: "Tout ce qui retarde le réel finit un jour par céder. Être secoué est parfois la première forme de libération.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour celles et ceux qui traversent une rupture soudaine, une prise de conscience forte ou un face-à-face brutal avec le réel.",
+        questionTitle: "Question à se poser",
+        questionText: "Ce qui s'effondre aujourd'hui est-il réellement une perte, ou une charge devenue inutile ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si vous traversez un moment de bascule, Dimitri peut vous aider Ã  comprendre ce que cette carte transforme en vous."
+        ctaText: "Si vous traversez un moment de bascule, Dimitri peut vous aider à comprendre ce que cette carte transforme en vous."
       },
       {
-        name: "L'Ã‰toile",
-        text1: "Aujourd'hui porte une Ã©nergie de rÃ©paration, d'espÃ©rance et de renaissance dÃ©licate. La douceur que votre cÅ“ur attendait depuis longtemps peut devenir plus visible.",
-        text2: "Tout n'a pas besoin d'Ãªtre rÃ©glÃ© d'un seul coup. Parfois, retrouver simplement la capacitÃ© d'espÃ©rer change dÃ©jÃ  la direction d'une vie.",
-        audienceTitle: "Pour qui ce tirage rÃ©sonne",
-        audienceText: "Pour les personnes qui recommencent Ã  respirer aprÃ¨s une longue fatigue intÃ©rieure.",
-        questionTitle: "Question Ã  se poser",
-        questionText: "Que cherche Ã  me dire ce mince espoir qui recommence Ã  naÃ®tre en moi aujourd'hui ?",
+        name: "L'Étoile",
+        text1: "Aujourd'hui porte une énergie de réparation, d'espérance et de renaissance délicate. La douceur que votre cœur attendait depuis longtemps peut devenir plus visible.",
+        text2: "Tout n'a pas besoin d'être réglé d'un seul coup. Parfois, retrouver simplement la capacité d'espérer change déjà la direction d'une vie.",
+        audienceTitle: "Pour qui ce tirage résonne",
+        audienceText: "Pour les personnes qui recommencent à respirer après une longue fatigue intérieure.",
+        questionTitle: "Question à se poser",
+        questionText: "Que cherche à me dire ce mince espoir qui recommence à naître en moi aujourd'hui ?",
         ctaTitle: "Prolonger la lecture",
-        ctaText: "Si cette carte vous apporte un sentiment de rÃ©paration, Dimitri peut vous aider Ã  lire plus finement cette ligne de guÃ©rison."
+        ctaText: "Si cette carte vous apporte un sentiment de réparation, Dimitri peut vous aider à lire plus finement cette ligne de guérison."
       }
     ]
   };
@@ -373,4 +396,3 @@ if (dailyDrawSection) {
   renderDailyDraw();
   scheduleNextDrawRefresh();
 }
-
