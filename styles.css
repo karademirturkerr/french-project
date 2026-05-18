@@ -1029,6 +1029,68 @@ p {
   padding-top: 96px;
 }
 
+.page-hero--articles {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 84px);
+  min-height: min(720px, calc(100vh - 118px));
+  padding-bottom: 72px;
+}
+
+.page-hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.page-hero-art {
+  position: relative;
+  min-height: clamp(420px, 55vw, 660px);
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(220, 199, 162, 0.13);
+  border-radius: 0;
+  background: rgba(10, 8, 8, 0.8);
+  box-shadow:
+    0 44px 120px rgba(0, 0, 0, 0.46),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  isolation: isolate;
+}
+
+.page-hero-art::before,
+.page-hero-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.page-hero-art::before {
+  background:
+    linear-gradient(90deg, rgba(10, 8, 8, 0.72), rgba(10, 8, 8, 0.18) 28%, transparent 52%),
+    radial-gradient(circle at 20% 10%, rgba(223, 137, 57, 0.24), transparent 28%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.5));
+}
+
+.page-hero-art::after {
+  border: 1px solid rgba(220, 199, 162, 0.1);
+  box-shadow:
+    inset 0 0 70px rgba(0, 0, 0, 0.58),
+    inset 0 0 120px rgba(125, 15, 31, 0.2);
+}
+
+.page-hero-art img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: block;
+  object-fit: cover;
+  object-position: 54% 50%;
+  filter: saturate(0.94) contrast(1.08) brightness(0.84);
+  transform: scale(1.03);
+}
+
 .legal-content .prose-block {
   max-width: 860px;
 }
@@ -1142,6 +1204,7 @@ p {
   .salon-section,
   .feature-band,
   .daily-draw,
+  .page-hero--articles,
   .article-layout,
   .ritual-grid,
   .intro-grid,
@@ -1162,6 +1225,16 @@ p {
 
   .hero-visual {
     min-height: auto;
+  }
+
+  .page-hero--articles {
+    min-height: auto;
+    padding-bottom: 42px;
+  }
+
+  .page-hero-art {
+    min-height: 360px;
+    order: -1;
   }
 
   .floating-panel {
@@ -1693,6 +1766,29 @@ p {
 
   .page-hero {
     padding-top: 44px;
+  }
+
+  .page-hero--articles {
+    gap: 24px;
+    padding-bottom: 28px;
+  }
+
+  .page-hero-art {
+    min-height: 260px;
+    margin-inline: calc(var(--shell-padding) * -1);
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .page-hero-art::before {
+    background:
+      linear-gradient(180deg, rgba(10, 8, 8, 0.08), rgba(10, 8, 8, 0.56)),
+      radial-gradient(circle at 16% 8%, rgba(223, 137, 57, 0.22), transparent 34%);
+  }
+
+  .page-hero-art img {
+    object-position: 58% 50%;
+    transform: scale(1.05);
   }
 
   .article-layout {
