@@ -121,7 +121,7 @@ const renderSummary = (visitors, leads) => {
   adminElements.summary.innerHTML = cards.map((card) => `
     <article class="admin-summary-card">
       <span class="card-tag">${card.title}</span>
-      <strong>${card.value}</strong>
+      <strong class="admin-summary-value${String(card.value).length > 14 ? " admin-summary-value--compact" : ""}">${card.value}</strong>
       <p>${card.note}</p>
     </article>
   `).join("");

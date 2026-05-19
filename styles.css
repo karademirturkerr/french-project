@@ -1543,12 +1543,21 @@ p {
   margin-bottom: 18px;
 }
 
-.admin-summary-card strong {
+.admin-summary-card strong,
+.admin-summary-value {
   display: block;
   color: var(--text);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2.1rem, 4vw, 3rem);
-  line-height: 0.92;
+  font-size: clamp(1.7rem, 2.9vw, 2.8rem);
+  line-height: 0.96;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-wrap: balance;
+}
+
+.admin-summary-value--compact {
+  font-size: clamp(1.2rem, 1.9vw, 2rem);
+  line-height: 1.02;
 }
 
 .admin-summary-card p {
