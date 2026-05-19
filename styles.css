@@ -970,6 +970,33 @@ p {
   font-weight: 700;
 }
 
+.article-card > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 50px;
+  margin-top: 18px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(198, 22, 48, 0.96), rgba(149, 18, 35, 0.96));
+  box-shadow: 0 16px 38px rgba(125, 15, 31, 0.32);
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.article-card > a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 46px rgba(125, 15, 31, 0.4);
+  filter: saturate(1.05);
+}
+
 .slider-control {
   width: 52px;
   height: 52px;
@@ -2123,6 +2150,10 @@ p {
 
   .article-layout {
     grid-template-columns: 1fr;
+  }
+
+  .article-card > a {
+    width: 100%;
   }
 
   .article-cover {
