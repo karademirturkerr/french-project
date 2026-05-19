@@ -1376,6 +1376,37 @@ p {
   gap: 20px;
 }
 
+.article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"],
+.article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"],
+.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 52px;
+  margin-top: 18px;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 16px 40px rgba(125, 15, 31, 0.36);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"]:hover,
+.article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"]:hover,
+.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 48px rgba(125, 15, 31, 0.42);
+  filter: saturate(1.04);
+}
+
 .article-grid .article-card h3 {
   margin: 0 0 8px;
   color: var(--gold);
@@ -2105,6 +2136,12 @@ p {
 
   .article-sidebar {
     gap: 16px;
+  }
+
+  .article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"],
+  .article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"],
+  .article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"] {
+    width: 100%;
   }
 
   .site-footer {
