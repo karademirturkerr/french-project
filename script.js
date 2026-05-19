@@ -401,6 +401,57 @@ const numerologyForm = document.querySelector("[data-numerology-form]");
 const numerologyResult = document.querySelector("[data-numerology-result]");
 
 if (numerologyForm && numerologyResult) {
+  const numerologyArticles = {
+    1: {
+      href: "yasam-yolu-sayisi-1-liderlik-bagimsizlik-ve-oncu-ruh.html",
+      label: "Yaşam yolu sayısı 1 makalesini oku"
+    },
+    2: {
+      href: "yasam-yolu-sayisi-2-sezgi-diplomasi-ve-uyumun-gucu.html",
+      label: "Yaşam yolu sayısı 2 makalesini oku"
+    },
+    3: {
+      href: "yasam-yolu-sayisi-3-yaraticilik-iletisim-ve-yasam-sevinci.html",
+      label: "Yaşam yolu sayısı 3 makalesini oku"
+    },
+    4: {
+      href: "yasam-yolu-sayisi-4-istikrar-duzen-ve-caliskanlik.html",
+      label: "Yaşam yolu sayısı 4 makalesini oku"
+    },
+    5: {
+      href: "yasam-yolu-sayisi-5-ozgurluk-macera-ve-degisimin-ritmi.html",
+      label: "Yaşam yolu sayısı 5 makalesini oku"
+    },
+    6: {
+      href: "yasam-yolu-sayisi-6-sorumluluk-kosulsuz-sevgi-ve-sifa.html",
+      label: "Yaşam yolu sayısı 6 makalesini oku"
+    },
+    7: {
+      href: "yasam-yolu-sayisi-7-bilgelik-analiz-ve-mistisizmin-sirri.html",
+      label: "Yaşam yolu sayısı 7 makalesini oku"
+    },
+    8: {
+      href: "yasam-yolu-sayisi-8-guc-bolluk-ve-maddi-basari.html",
+      label: "Yaşam yolu sayısı 8 makalesini oku"
+    },
+    9: {
+      href: "yasam-yolu-sayisi-9-humanizm-evrensel-sevgi-ve-sifacilik.html",
+      label: "Yaşam yolu sayısı 9 makalesini oku"
+    },
+    11: {
+      href: "ustad-yasam-yolu-sayisi-11-sezgisellik-ilham-ve-psisik-guc.html",
+      label: "Üstad yaşam yolu sayısı 11 makalesini oku"
+    },
+    22: {
+      href: "ustad-yasam-yolu-sayisi-22-ustad-mimar-ve-hayalleri-insa-etmek.html",
+      label: "Üstad yaşam yolu sayısı 22 makalesini oku"
+    },
+    33: {
+      href: "ustad-yasam-yolu-sayisi-33-ustad-ogretmen-ve-sifa-enerjisi.html",
+      label: "Üstad yaşam yolu sayısı 33 makalesini oku"
+    }
+  };
+
   const meanings = {
     1: {
       title: "1: Başlatan irade",
@@ -480,12 +531,15 @@ if (numerologyForm && numerologyResult) {
     const rawTotal = digits.split("").reduce((sum, digit) => sum + Number(digit), 0);
     const number = reduceNumber(rawTotal);
     const meaning = meanings[number];
+    const article = numerologyArticles[number];
 
     numerologyResult.innerHTML = `
       <span class="card-tag">Yaşam yolu sayın</span>
       <span class="numerology-number">${number}</span>
       <h3>${meaning.title}</h3>
       <p>${meaning.text}</p>
+      <p class="numerology-followup">Yaşam yolu sayın hakkındaki detaylı makaleyi okumak istersen aşağıdan devam edebilirsin.</p>
+      <a class="button button-primary numerology-result-link" href="${article.href}">${article.label}</a>
     `;
   });
 }

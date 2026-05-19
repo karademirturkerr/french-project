@@ -1226,6 +1226,15 @@ p {
   line-height: 0.96;
 }
 
+.numerology-followup {
+  margin-top: 16px;
+}
+
+.numerology-result-link {
+  margin-top: 18px;
+  width: fit-content;
+}
+
 .numerology-number {
   display: inline-flex;
   align-items: center;
@@ -1248,6 +1257,15 @@ p {
 .article-sidebar {
   display: grid;
   gap: 20px;
+}
+
+.article-grid .article-card h3 {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .site-footer {
