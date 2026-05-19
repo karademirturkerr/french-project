@@ -1194,24 +1194,132 @@ p {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   margin-bottom: 18px;
+  align-items: start;
 }
 
-.numerology-input-row input {
+.numerology-picker {
+  position: relative;
+}
+
+.numerology-picker-trigger {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 18px;
   width: 100%;
-  min-height: 54px;
-  padding: 0 16px;
+  min-height: 58px;
+  padding: 14px 18px;
   border: 1px solid rgba(220, 199, 162, 0.18);
-  border-radius: 999px;
+  border-radius: 28px;
   color: var(--text);
   background: rgba(255, 255, 255, 0.055);
-  font: inherit;
-  color-scheme: dark;
-  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
-.numerology-input-row input:focus {
+.numerology-picker-trigger:hover,
+.numerology-picker-trigger[aria-expanded="true"] {
   border-color: rgba(220, 199, 162, 0.42);
   box-shadow: 0 0 0 4px rgba(198, 22, 48, 0.14);
+  background: rgba(255, 255, 255, 0.072);
+}
+
+.numerology-picker-label,
+.numerology-picker-value {
+  display: block;
+}
+
+.numerology-picker-label {
+  color: rgba(220, 199, 162, 0.78);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.numerology-picker-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.numerology-picker-icon {
+  align-self: center;
+  width: 14px;
+  height: 14px;
+  margin-right: 2px;
+  border-right: 2px solid rgba(220, 199, 162, 0.74);
+  border-bottom: 2px solid rgba(220, 199, 162, 0.74);
+  transform: rotate(45deg);
+  transition: transform 180ms ease;
+}
+
+.numerology-picker-trigger[aria-expanded="true"] .numerology-picker-icon {
+  transform: rotate(-135deg);
+}
+
+.numerology-picker-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  right: 0;
+  z-index: 12;
+  padding: 20px;
+  border: 1px solid rgba(220, 199, 162, 0.14);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(198, 22, 48, 0.2), transparent 32%),
+    linear-gradient(145deg, rgba(12, 10, 10, 0.98), rgba(27, 18, 20, 0.98));
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(18px);
+}
+
+.numerology-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.numerology-picker-field {
+  display: grid;
+  gap: 8px;
+}
+
+.numerology-picker-field span {
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.numerology-picker-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(220, 199, 162, 0.18);
+  border-radius: 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  font: inherit;
+  outline: none;
+  appearance: none;
+}
+
+.numerology-picker-field select:focus {
+  border-color: rgba(220, 199, 162, 0.42);
+  box-shadow: 0 0 0 4px rgba(198, 22, 48, 0.14);
+}
+
+.numerology-picker-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.numerology-picker-actions .button {
+  min-width: 128px;
 }
 
 .numerology-panel p,
@@ -1954,6 +2062,19 @@ p {
 
   .numerology-input-row {
     grid-template-columns: 1fr;
+  }
+
+  .numerology-picker-panel {
+    position: static;
+    margin-top: 12px;
+  }
+
+  .numerology-picker-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .numerology-picker-actions {
+    flex-direction: column-reverse;
   }
 
   .numerology-input-row .button {

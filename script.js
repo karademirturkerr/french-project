@@ -401,6 +401,144 @@ const numerologyForm = document.querySelector("[data-numerology-form]");
 const numerologyResult = document.querySelector("[data-numerology-result]");
 
 if (numerologyForm && numerologyResult) {
+  const birthdateInput = numerologyForm.querySelector("#birthdate");
+  const birthdatePicker = numerologyForm.querySelector("[data-birthdate-picker]");
+  const birthdateToggle = numerologyForm.querySelector("[data-birthdate-toggle]");
+  const birthdatePanel = numerologyForm.querySelector("[data-birthdate-panel]");
+  const birthdateDisplay = numerologyForm.querySelector("[data-birthdate-display]");
+  const birthDaySelect = numerologyForm.querySelector("[data-birth-day]");
+  const birthMonthSelect = numerologyForm.querySelector("[data-birth-month]");
+  const birthYearSelect = numerologyForm.querySelector("[data-birth-year]");
+  const birthdateClear = numerologyForm.querySelector("[data-birthdate-clear]");
+  const birthdateClose = numerologyForm.querySelector("[data-birthdate-close]");
+  const monthNames = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık"
+  ];
+
+  const setPickerOpen = (isOpen) => {
+    if (!birthdateToggle || !birthdatePanel) return;
+    birthdateToggle.setAttribute("aria-expanded", String(isOpen));
+    birthdatePanel.hidden = !isOpen;
+  };
+
+  const populateYearOptions = () => {
+    if (!birthYearSelect) return;
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= currentYear - 120; year -= 1) {
+      const option = document.createElement("option");
+      option.value = String(year);
+      option.textContent = String(year);
+      birthYearSelect.append(option);
+    }
+  };
+
+  const populateMonthOptions = () => {
+    if (!birthMonthSelect) return;
+    monthNames.forEach((month, index) => {
+      const option = document.createElement("option");
+      option.value = String(index + 1).padStart(2, "0");
+      option.textContent = month;
+      birthMonthSelect.append(option);
+    });
+  };
+
+  const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
+
+  const populateDayOptions = () => {
+    if (!birthDaySelect || !birthMonthSelect || !birthYearSelect) return;
+    const selectedDay = birthDaySelect.value;
+    const year = Number(birthYearSelect.value);
+    const month = Number(birthMonthSelect.value);
+    const totalDays = year && month ? getDaysInMonth(year, month) : 31;
+
+    birthDaySelect.innerHTML = '<option value="">Gün</option>';
+
+    for (let day = 1; day <= totalDays; day += 1) {
+      const option = document.createElement("option");
+      option.value = String(day).padStart(2, "0");
+      option.textContent = String(day);
+      birthDaySelect.append(option);
+    }
+
+    if (selectedDay && Number(selectedDay) <= totalDays) {
+      birthDaySelect.value = selectedDay;
+    }
+  };
+
+  const updateBirthdateValue = () => {
+    if (!birthdateInput || !birthdateDisplay || !birthDaySelect || !birthMonthSelect || !birthYearSelect) return;
+    const day = birthDaySelect.value;
+    const month = birthMonthSelect.value;
+    const year = birthYearSelect.value;
+
+    if (day && month && year) {
+      birthdateInput.value = `${year}-${month}-${day}`;
+      birthdateDisplay.textContent = `${Number(day)} ${monthNames[Number(month) - 1]} ${year}`;
+    } else {
+      birthdateInput.value = "";
+      birthdateDisplay.textContent = "Gün / Ay / Yıl";
+    }
+  };
+
+  const resetBirthdatePicker = () => {
+    if (!birthDaySelect || !birthMonthSelect || !birthYearSelect) return;
+    birthDaySelect.value = "";
+    birthMonthSelect.value = "";
+    birthYearSelect.value = "";
+    populateDayOptions();
+    updateBirthdateValue();
+  };
+
+  populateYearOptions();
+  populateMonthOptions();
+  populateDayOptions();
+  updateBirthdateValue();
+
+  birthdateToggle?.addEventListener("click", () => {
+    const isOpen = birthdateToggle.getAttribute("aria-expanded") === "true";
+    setPickerOpen(!isOpen);
+  });
+
+  birthMonthSelect?.addEventListener("change", () => {
+    populateDayOptions();
+    updateBirthdateValue();
+  });
+
+  birthYearSelect?.addEventListener("change", () => {
+    populateDayOptions();
+    updateBirthdateValue();
+  });
+
+  birthDaySelect?.addEventListener("change", updateBirthdateValue);
+
+  birthdateClear?.addEventListener("click", () => {
+    resetBirthdatePicker();
+    setPickerOpen(true);
+  });
+
+  birthdateClose?.addEventListener("click", () => {
+    updateBirthdateValue();
+    setPickerOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!birthdatePicker || !birthdatePanel || birthdatePanel.hidden) return;
+    if (!birthdatePicker.contains(event.target)) {
+      setPickerOpen(false);
+    }
+  });
+
   const numerologyArticles = {
     1: {
       href: "yasam-yolu-sayisi-1-liderlik-bagimsizlik-ve-oncu-ruh.html",
@@ -520,6 +658,7 @@ if (numerologyForm && numerologyResult) {
     const digits = dateValue.replace(/\D/g, "");
 
     if (!digits) {
+      setPickerOpen(true);
       numerologyResult.innerHTML = `
         <span class="card-tag">Sonuç</span>
         <h3>Tarihi eksiksiz gir.</h3>

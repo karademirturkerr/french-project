@@ -59,7 +59,40 @@
           <form class="numerology-panel" data-numerology-form>
             <label for="birthdate">Doğum tarihin</label>
             <div class="numerology-input-row">
-              <input id="birthdate" name="birthdate" type="date" required>
+              <div class="numerology-picker" data-birthdate-picker>
+                <input id="birthdate" name="birthdate" type="hidden">
+                <button class="numerology-picker-trigger" type="button" data-birthdate-toggle aria-expanded="false" aria-controls="birthdate-panel">
+                  <span class="numerology-picker-label">Tarihini seç</span>
+                  <span class="numerology-picker-value" data-birthdate-display>Gün / Ay / Yıl</span>
+                  <span class="numerology-picker-icon" aria-hidden="true"></span>
+                </button>
+                <div class="numerology-picker-panel" id="birthdate-panel" data-birthdate-panel hidden>
+                  <div class="numerology-picker-grid">
+                    <label class="numerology-picker-field">
+                      <span>Gün</span>
+                      <select data-birth-day>
+                        <option value="">Gün</option>
+                      </select>
+                    </label>
+                    <label class="numerology-picker-field">
+                      <span>Ay</span>
+                      <select data-birth-month>
+                        <option value="">Ay</option>
+                      </select>
+                    </label>
+                    <label class="numerology-picker-field">
+                      <span>Yıl</span>
+                      <select data-birth-year>
+                        <option value="">Yıl</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="numerology-picker-actions">
+                    <button class="button button-secondary" type="button" data-birthdate-clear>Temizle</button>
+                    <button class="button button-primary" type="button" data-birthdate-close>Tamam</button>
+                  </div>
+                </div>
+              </div>
               <button class="button button-primary" type="submit">Hesapla</button>
             </div>
             <p>Yaşam yolu sayısı, doğum tarihindeki rakamların sembolik toplamından okunur. Bu sonuç kesin bir kader hükmü değil, içsel eğilimleri anlamak için kullanılan spiritüel bir pusuladır.</p>
