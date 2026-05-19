@@ -396,3 +396,96 @@ if (dailyDrawSection) {
   renderDailyDraw();
   scheduleNextDrawRefresh();
 }
+
+const numerologyForm = document.querySelector("[data-numerology-form]");
+const numerologyResult = document.querySelector("[data-numerology-result]");
+
+if (numerologyForm && numerologyResult) {
+  const meanings = {
+    1: {
+      title: "1: Başlatan irade",
+      text: "Bu sayı bağımsızlık, liderlik ve yeni yollar açma isteğiyle çalışır. Gölge tarafı acelecilik; hediyesi ise kendi yönünü cesaretle seçmektir."
+    },
+    2: {
+      title: "2: Duygusal sezgi",
+      text: "Bu frekans bağ kurma, hassasiyet ve uyum arayışı taşır. İlişkilerde denge kurmayı ve sezgiyi ciddiye almayı öğretir."
+    },
+    3: {
+      title: "3: İfade ve yaratım",
+      text: "Bu sayı söz, üretim ve görünür olma enerjisiyle ilgilidir. İçinde biriken duyguyu doğru forma dönüştürmeyi destekler."
+    },
+    4: {
+      title: "4: Temel ve disiplin",
+      text: "Bu titreşim düzen, emek ve sağlam zemin ister. Hayatın dağınık alanlarını yapılandırdığında gücün belirginleşir."
+    },
+    5: {
+      title: "5: Değişim ve hareket",
+      text: "Bu sayı özgürleşme, dönüşüm ve yeni deneyimlerle büyümeyi anlatır. Sabit kalmak zorlaştığında ruhun yön değiştirmek istiyor olabilir."
+    },
+    6: {
+      title: "6: Kalp ve sorumluluk",
+      text: "Bu frekans sevgi, aile, bakım ve şefkatli sorumluluk alanını açar. Kendini tüketmeden vermeyi öğrenmek ana derslerinden biridir."
+    },
+    7: {
+      title: "7: İçsel bilgelik",
+      text: "Bu sayı araştırma, yalnızlık, sezgi ve ruhsal derinlikle çalışır. Cevapları dışarıda değil, çoğu zaman sessizlikte bulursun."
+    },
+    8: {
+      title: "8: Güç ve madde",
+      text: "Bu frekans irade, para, otorite ve somut sonuçlarla ilgilidir. Gücü kontrol etmek yerine onu olgunlaştırmayı öğretir."
+    },
+    9: {
+      title: "9: Tamamlanma ve şifa",
+      text: "Bu sayı kapanışlar, affediş ve kolektif fayda alanını taşır. Geçmişi dönüştürdüğünde başkalarına da ışık tutabilirsin."
+    },
+    11: {
+      title: "11: Sezgisel kapı",
+      text: "Bu usta sayı yüksek sezgi, ilham ve içsel uyanışla ilişkilidir. Hassasiyetini yük değil, doğru kullanıldığında rehber bir kanal gibi okuyabilirsin."
+    },
+    22: {
+      title: "22: Büyük inşa",
+      text: "Bu usta sayı büyük fikirleri somut dünyaya taşıma potansiyeli verir. Vizyonun ancak sabır ve yapı ile gerçek bir forma kavuşur."
+    },
+    33: {
+      title: "33: Şefkatli öğretmen",
+      text: "Bu usta sayı iyileştirici sevgi, rehberlik ve sorumlulukla çalışır. Önce kendini korumayı öğrendiğinde başkalarına daha temiz dokunursun."
+    }
+  };
+
+  const reduceNumber = (value) => {
+    let total = value;
+    while (total > 9 && total !== 11 && total !== 22 && total !== 33) {
+      total = String(total)
+        .split("")
+        .reduce((sum, digit) => sum + Number(digit), 0);
+    }
+    return total;
+  };
+
+  numerologyForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(numerologyForm);
+    const dateValue = String(formData.get("birthdate") || "");
+    const digits = dateValue.replace(/\D/g, "");
+
+    if (!digits) {
+      numerologyResult.innerHTML = `
+        <span class="card-tag">Sonuç</span>
+        <h3>Tarihi eksiksiz gir.</h3>
+        <p>Yaşam yolu sayını hesaplayabilmem için doğum tarihini seçmen gerekiyor.</p>
+      `;
+      return;
+    }
+
+    const rawTotal = digits.split("").reduce((sum, digit) => sum + Number(digit), 0);
+    const number = reduceNumber(rawTotal);
+    const meaning = meanings[number];
+
+    numerologyResult.innerHTML = `
+      <span class="card-tag">Yaşam yolu sayın</span>
+      <span class="numerology-number">${number}</span>
+      <h3>${meaning.title}</h3>
+      <p>${meaning.text}</p>
+    `;
+  });
+}

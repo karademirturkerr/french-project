@@ -1128,6 +1128,123 @@ p {
   display: block;
 }
 
+.numerology-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 76px);
+  min-height: min(700px, calc(100vh - 118px));
+  padding-bottom: 72px;
+}
+
+.numerology-art img {
+  object-position: 52% 50%;
+}
+
+.numerology-section {
+  display: grid;
+  gap: 24px;
+}
+
+.numerology-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(320px, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.numerology-panel,
+.numerology-result {
+  min-height: 100%;
+}
+
+.numerology-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid rgba(220, 199, 162, 0.14);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top left, rgba(198, 22, 48, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  box-shadow: var(--shadow-soft);
+}
+
+.numerology-panel::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(220, 199, 162, 0.08);
+  border-radius: calc(var(--radius-lg) - 8px);
+  pointer-events: none;
+}
+
+.numerology-panel label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.numerology-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.numerology-input-row input {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 16px;
+  border: 1px solid rgba(220, 199, 162, 0.18);
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.055);
+  font: inherit;
+  color-scheme: dark;
+  outline: none;
+}
+
+.numerology-input-row input:focus {
+  border-color: rgba(220, 199, 162, 0.42);
+  box-shadow: 0 0 0 4px rgba(198, 22, 48, 0.14);
+}
+
+.numerology-panel p,
+.numerology-result p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.numerology-result h3 {
+  margin: 14px 0 12px;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 0.96;
+}
+
+.numerology-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 74px;
+  height: 74px;
+  margin-top: 18px;
+  border: 1px solid rgba(220, 199, 162, 0.24);
+  border-radius: 50%;
+  color: #fff;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.22), transparent 28%),
+    linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 18px 44px rgba(198, 22, 48, 0.24);
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 700;
+}
+
 .article-sidebar {
   display: grid;
   gap: 20px;
@@ -1205,6 +1322,8 @@ p {
   .feature-band,
   .daily-draw,
   .page-hero--articles,
+  .numerology-hero,
+  .numerology-layout,
   .article-layout,
   .ritual-grid,
   .intro-grid,
@@ -1235,6 +1354,15 @@ p {
   .page-hero-art {
     min-height: 360px;
     order: -1;
+  }
+
+  .numerology-hero {
+    min-height: auto;
+    padding-bottom: 42px;
+  }
+
+  .numerology-layout {
+    gap: 16px;
   }
 
   .floating-panel {
@@ -1779,6 +1907,11 @@ p {
     padding-bottom: 28px;
   }
 
+  .numerology-hero {
+    gap: 24px;
+    padding-bottom: 28px;
+  }
+
   .page-hero-art {
     min-height: 260px;
     margin-inline: calc(var(--shell-padding) * -1);
@@ -1795,6 +1928,18 @@ p {
   .page-hero-art img {
     object-position: 58% 50%;
     transform: scale(1.05);
+  }
+
+  .numerology-panel {
+    padding: 22px;
+  }
+
+  .numerology-input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .numerology-input-row .button {
+    width: 100%;
   }
 
   .article-layout {
