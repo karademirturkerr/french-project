@@ -59,6 +59,19 @@ const getHostLabel = (value) => {
   }
 };
 
+const normalizeLeadName = (value) => String(value || "")
+  .trim()
+  .toLocaleLowerCase("tr-TR")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/ı/g, "i")
+  .replace(/ş/g, "s")
+  .replace(/ğ/g, "g")
+  .replace(/ç/g, "c")
+  .replace(/ö/g, "o")
+  .replace(/ü/g, "u")
+  .replace(/\s+/g, " ");
+
 const setAuthMessage = (message, tone = "default") => {
   if (!adminElements.authMessage) return;
 
@@ -235,9 +248,12 @@ const fetchDashboardData = async () => {
   if (visitorsError) throw visitorsError;
   if (leadsError) throw leadsError;
 
-  renderSummary(visitors || [], leads || []);
-  renderVisitors(visitors || []);
-  renderLeads(leads || []);
+  const safeVisitors = visitors || [];
+  const safeLeads = (leads || []).filter((item) => normalizeLeadName(item.full_name) !== "turker karademir");
+
+  renderSummary(safeVisitors, safeLeads);
+  renderVisitors(safeVisitors);
+  renderLeads(safeLeads);
 };
 
 const showAuthorizedState = async (session) => {

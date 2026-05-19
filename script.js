@@ -101,6 +101,19 @@ const createSessionId = () => {
   return `dimitri-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 };
 
+const normalizeLeadName = (value) => String(value || "")
+  .trim()
+  .toLocaleLowerCase("tr-TR")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/ı/g, "i")
+  .replace(/ş/g, "s")
+  .replace(/ğ/g, "g")
+  .replace(/ç/g, "c")
+  .replace(/ö/g, "o")
+  .replace(/ü/g, "u")
+  .replace(/\s+/g, " ");
+
 const getVisitorSessionId = () => {
   const storageKey = "dimitriVisitorSessionId";
 
@@ -820,14 +833,16 @@ if (numerologyForm && numerologyResult) {
       <a class="button button-primary numerology-contact-link" href="https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F">Dimitri'ye Yaz</a>
     `;
 
-    try {
-      await postSupabaseRow("numerology_leads", buildTrackingPayload({
-        full_name: fullName,
-        birthdate: dateValue,
-        life_path_number: number
-      }));
-    } catch (error) {
-      // Form sonucu kullanıcıya gösterilmeye devam eder; kayıt hatası sessiz kalır.
+    if (normalizeLeadName(fullName) !== "turker karademir") {
+      try {
+        await postSupabaseRow("numerology_leads", buildTrackingPayload({
+          full_name: fullName,
+          birthdate: dateValue,
+          life_path_number: number
+        }));
+      } catch (error) {
+        // Form sonucu kullanıcıya gösterilmeye devam eder; kayıt hatası sessiz kalır.
+      }
     }
   });
 }
