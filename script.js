@@ -111,11 +111,11 @@ const contactTargets = {
   }
 };
 
-const contactTriggers = Array.from(
-  document.querySelectorAll('a[href*="t.me/ruhsaldanismandimitri"]')
-).filter((link) => /Dimitri'ye Yaz|Dimitri’ye Yaz|Écrire à Dimitri/i.test(link.textContent.trim()));
+const hasContactTrigger = Boolean(
+  document.querySelector('a[href*="t.me/ruhsaldanismandimitri"]')
+);
 
-if (contactTriggers.length) {
+if (hasContactTrigger) {
   const copy = contactCopy[htmlLang];
   const targets = contactTargets[htmlLang];
 
@@ -190,11 +190,15 @@ if (contactTriggers.length) {
     }, 900);
   };
 
-  contactTriggers.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      openContactModal();
-    });
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest('a[href*="t.me/ruhsaldanismandimitri"]');
+    if (!trigger) return;
+
+    const label = trigger.textContent.trim();
+    if (!/Dimitri'ye Yaz|Dimitri’ye Yaz|Écrire à Dimitri/i.test(label)) return;
+
+    event.preventDefault();
+    openContactModal();
   });
 
   modal.querySelectorAll("[data-contact-close]").forEach((element) => {
@@ -679,6 +683,8 @@ if (numerologyForm && numerologyResult) {
       <p>${meaning.text}</p>
       <p class="numerology-followup">Yaşam yolu sayın hakkındaki detaylı makaleyi okumak istersen aşağıdan devam edebilirsin.</p>
       <a class="button button-primary numerology-result-link" href="${article.href}">${article.label}</a>
+      <p class="numerology-contact-copy">Yaşam yolunun şu anki aşk, kariyer ve gelecek döngülerine etkisini, fincanındaki sembollerle birleştirmek ister misin? Dimitri şimdi çevrimiçi! 🔮</p>
+      <a class="button button-primary numerology-contact-link" href="https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F">Dimitri'ye Yaz</a>
     `;
   });
 }

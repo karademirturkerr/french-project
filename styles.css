@@ -1343,6 +1343,15 @@ p {
   width: fit-content;
 }
 
+.numerology-contact-copy {
+  margin-top: 18px;
+}
+
+.numerology-contact-link {
+  margin-top: 14px;
+  width: fit-content;
+}
+
 .numerology-number {
   display: inline-flex;
   align-items: center;
