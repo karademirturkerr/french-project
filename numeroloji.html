@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20260520">
+  <link rel="stylesheet" href="styles.css?v=20260521">
 </head>
 <body>
   <div class="site-shell page-shell">
@@ -57,6 +57,8 @@
 
         <div class="numerology-layout">
           <form class="numerology-panel" data-numerology-form>
+            <label for="full-name">Ad Soyad</label>
+            <input class="numerology-text-input" id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Ad Soyad" required>
             <label for="birthdate">Doğum tarihin</label>
             <div class="numerology-input-row">
               <div class="numerology-picker" data-birthdate-picker>
@@ -95,13 +97,13 @@
               </div>
               <button class="button button-primary" type="submit">Hesapla</button>
             </div>
-            <p>Yaşam yolu sayısı, doğum tarihindeki rakamların sembolik toplamından okunur. Bu sonuç kesin bir kader hükmü değil, içsel eğilimleri anlamak için kullanılan spiritüel bir pusuladır.</p>
+            <p>Yaşam yolu sayısı, doğum tarihindeki rakamların sembolik toplamından okunur. İsim ve doğum tarihi birlikte alındığında yorum akışı daha kişisel hale gelir; bu sonuç yine de kesin bir kader hükmü değil, içsel eğilimleri anlamak için kullanılan spiritüel bir pusuladır.</p>
           </form>
 
           <article class="numerology-result info-card" data-numerology-result>
             <span class="card-tag">Sonuç</span>
-            <h3>Sayını görmek için doğum tarihini gir.</h3>
-            <p>Hesaplama sonrası burada yaşam yolu sayının genel frekansı ve Dimitri'nin kısa yorumu görünecek.</p>
+            <h3>Sayını görmek için ad soyadınla doğum tarihini gir.</h3>
+            <p>Hesaplama sonrası burada yaşam yolu sayının genel frekansı, Dimitri'nin kısa yorumu ve sana özel makale yönlendirmesi görünecek.</p>
           </article>
         </div>
       </section>
@@ -133,6 +135,6 @@
     </footer>
   </div>
 
-  <script src="script.js?v=20260520"></script>
+  <script src="script.js?v=20260521"></script>
 </body>
 </html>

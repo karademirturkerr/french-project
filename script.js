@@ -79,6 +79,133 @@ languageLinks.forEach((link) => {
   });
 });
 
+const getPanelConfig = (() => {
+  let configPromise;
+
+  return async () => {
+    if (configPromise) return configPromise;
+
+    configPromise = fetch("panel-config.json", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .catch(() => null);
+
+    return configPromise;
+  };
+})();
+
+const createSessionId = () => {
+  if (window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  return `dimitri-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+};
+
+const getVisitorSessionId = () => {
+  const storageKey = "dimitriVisitorSessionId";
+
+  try {
+    const storedValue = window.localStorage.getItem(storageKey);
+    if (storedValue) return storedValue;
+
+    const nextValue = createSessionId();
+    window.localStorage.setItem(storageKey, nextValue);
+    return nextValue;
+  } catch (error) {
+    if (!window.__dimitriFallbackSessionId) {
+      window.__dimitriFallbackSessionId = createSessionId();
+    }
+
+    return window.__dimitriFallbackSessionId;
+  }
+};
+
+const getSourceLabel = (referrer, params) => {
+  const utmSource = params.get("utm_source");
+  if (utmSource) return utmSource;
+  if (!referrer) return "Doğrudan";
+
+  try {
+    const hostname = new URL(referrer).hostname.replace(/^www\./, "").toLowerCase();
+
+    if (hostname.includes("google")) return "Google";
+    if (hostname.includes("instagram")) return "Instagram";
+    if (hostname.includes("telegram") || hostname === "t.me") return "Telegram";
+    if (hostname.includes("facebook")) return "Facebook";
+    if (hostname.includes("tiktok")) return "TikTok";
+    if (hostname.includes("youtube")) return "YouTube";
+    if (hostname.includes("whatsapp")) return "WhatsApp";
+    if (hostname.includes("bing")) return "Bing";
+
+    return hostname;
+  } catch (error) {
+    return referrer;
+  }
+};
+
+const buildTrackingPayload = (overrides = {}) => {
+  const params = new URLSearchParams(window.location.search);
+  const referrer = document.referrer || null;
+
+  return {
+    session_id: getVisitorSessionId(),
+    page_path: window.location.pathname,
+    page_url: window.location.href,
+    page_title: document.title,
+    referrer,
+    source_label: getSourceLabel(referrer, params),
+    utm_source: params.get("utm_source"),
+    utm_medium: params.get("utm_medium"),
+    utm_campaign: params.get("utm_campaign"),
+    utm_term: params.get("utm_term"),
+    utm_content: params.get("utm_content"),
+    language: navigator.language || null,
+    platform: navigator.userAgentData?.platform || navigator.platform || null,
+    user_agent: navigator.userAgent || null,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+    screen_width: window.screen?.width || null,
+    screen_height: window.screen?.height || null,
+    viewport_width: window.innerWidth || null,
+    viewport_height: window.innerHeight || null,
+    cookies_enabled: typeof navigator.cookieEnabled === "boolean" ? navigator.cookieEnabled : null,
+    cookie_snapshot: document.cookie || null,
+    ...overrides
+  };
+};
+
+const postSupabaseRow = async (tableName, payload) => {
+  const config = await getPanelConfig();
+
+  if (!config?.publicTrackingEnabled || !config.supabaseUrl || !config.supabaseAnonKey) {
+    return false;
+  }
+
+  const response = await fetch(`${config.supabaseUrl}/rest/v1/${tableName}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: config.supabaseAnonKey,
+      Authorization: `Bearer ${config.supabaseAnonKey}`,
+      Prefer: "return=minimal"
+    },
+    body: JSON.stringify([payload])
+  });
+
+  return response.ok;
+};
+
+const sendVisitorEvent = async () => {
+  try {
+    await postSupabaseRow("visitor_events", buildTrackingPayload());
+  } catch (error) {
+    // Tracking is intentionally silent for visitors.
+  }
+};
+
+window.setTimeout(() => {
+  void sendVisitorEvent();
+}, 160);
+
 const contactCopy = {
   tr: {
     title: "Dimitri ile nasıl iletişime geçmek istersin?",
@@ -405,6 +532,7 @@ const numerologyForm = document.querySelector("[data-numerology-form]");
 const numerologyResult = document.querySelector("[data-numerology-result]");
 
 if (numerologyForm && numerologyResult) {
+  const nameInput = numerologyForm.querySelector("#full-name");
   const birthdateInput = numerologyForm.querySelector("#birthdate");
   const birthdatePicker = numerologyForm.querySelector("[data-birthdate-picker]");
   const birthdateToggle = numerologyForm.querySelector("[data-birthdate-toggle]");
@@ -655,18 +783,23 @@ if (numerologyForm && numerologyResult) {
     return total;
   };
 
-  numerologyForm.addEventListener("submit", (event) => {
+  numerologyForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(numerologyForm);
+    const fullName = String(formData.get("fullName") || "").trim();
     const dateValue = String(formData.get("birthdate") || "");
     const digits = dateValue.replace(/\D/g, "");
 
-    if (!digits) {
-      setPickerOpen(true);
+    if (!fullName || !digits) {
+      if (!fullName && nameInput) {
+        nameInput.focus();
+      } else {
+        setPickerOpen(true);
+      }
       numerologyResult.innerHTML = `
         <span class="card-tag">Sonuç</span>
-        <h3>Tarihi eksiksiz gir.</h3>
-        <p>Yaşam yolu sayını hesaplayabilmem için doğum tarihini seçmen gerekiyor.</p>
+        <h3>Ad soyad ve tarihi eksiksiz gir.</h3>
+        <p>Yaşam yolu sayını hesaplayabilmem için ad soyadını ve doğum tarihini birlikte girmen gerekiyor.</p>
       `;
       return;
     }
@@ -686,5 +819,15 @@ if (numerologyForm && numerologyResult) {
       <p class="numerology-contact-copy">Yaşam yolunun şu anki aşk, kariyer ve gelecek döngülerine etkisini, fincanındaki sembollerle birleştirmek ister misin? Dimitri şimdi çevrimiçi! 🔮</p>
       <a class="button button-primary numerology-contact-link" href="https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F">Dimitri'ye Yaz</a>
     `;
+
+    try {
+      await postSupabaseRow("numerology_leads", buildTrackingPayload({
+        full_name: fullName,
+        birthdate: dateValue,
+        life_path_number: number
+      }));
+    } catch (error) {
+      // Form sonucu kullanıcıya gösterilmeye devam eder; kayıt hatası sessiz kalır.
+    }
   });
 }

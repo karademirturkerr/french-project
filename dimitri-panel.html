@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dimitri Panel</title>
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Dimitri için özel yönetim paneli.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css?v=20260521">
+</head>
+<body>
+  <div class="site-shell page-shell">
+    <header class="site-header admin-header">
+      <a class="brand" href="index-tr.html">
+        <span class="brand-mark"></span>
+        <span>Dimitri</span>
+      </a>
+      <div class="admin-header-copy">
+        <span class="card-tag">Özel panel</span>
+        <p>Bu alan müşterilere görünmez; yalnızca yönetici oturumu ile açılır.</p>
+      </div>
+    </header>
+
+    <main class="page-content admin-page">
+      <section class="section page-hero admin-hero">
+        <div class="page-hero-copy">
+          <p class="eyebrow">İç akış</p>
+          <h1>Kaynak, cihaz ve numeroloji başvurularını tek yerden izle.</h1>
+          <p class="lede narrow">
+            Siteye gelen ziyaretçilerin geliş kaynakları, cihaz verileri ve numeroloji formuna girilen bilgiler bu panelde toplanır.
+          </p>
+        </div>
+      </section>
+
+      <section class="section admin-shell">
+        <aside class="admin-auth-card info-card">
+          <span class="card-tag">Yönetici girişi</span>
+          <h2>Panele yalnızca sen eriş.</h2>
+          <p data-admin-auth-message>
+            Giriş yapıldığında yalnızca tanımlı yönetici e-postası için veri tablosu açılır.
+          </p>
+
+          <form class="admin-login-form" data-admin-login-form>
+            <label for="admin-email">E-posta</label>
+            <input class="numerology-text-input" id="admin-email" name="email" type="email" autocomplete="email" placeholder="yonetici@mail.com" required>
+
+            <label for="admin-password">Şifre</label>
+            <input class="numerology-text-input" id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Şifren" required>
+
+            <button class="button button-primary" type="submit">Panele gir</button>
+          </form>
+
+          <div class="admin-session" hidden data-admin-session-box>
+            <p><strong>Aktif oturum:</strong> <span data-admin-session-email></span></p>
+            <button class="button button-secondary" type="button" data-admin-logout>Çıkış yap</button>
+          </div>
+        </aside>
+
+        <section class="admin-dashboard" hidden data-admin-dashboard>
+          <div class="admin-summary-grid" data-admin-summary></div>
+
+          <div class="admin-data-grid">
+            <article class="info-card admin-data-card">
+              <div class="admin-data-head">
+                <div>
+                  <span class="card-tag">Ziyaretçiler</span>
+                  <h3>Sayfaya geliş akışı</h3>
+                </div>
+                <p data-admin-visitors-count></p>
+              </div>
+              <div class="admin-table-wrap" data-admin-visitors-table></div>
+            </article>
+
+            <article class="info-card admin-data-card">
+              <div class="admin-data-head">
+                <div>
+                  <span class="card-tag">Numeroloji</span>
+                  <h3>Form kayıtları</h3>
+                </div>
+                <p data-admin-leads-count></p>
+              </div>
+              <div class="admin-table-wrap" data-admin-leads-table></div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin-panel.js?v=20260521"></script>
+</body>
+</html>
