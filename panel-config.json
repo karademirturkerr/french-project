@@ -1,6 +1,6 @@
 {
-  "supabaseUrl": "",
-  "supabaseAnonKey": "",
-  "adminEmail": "",
-  "publicTrackingEnabled": false
+  "supabaseUrl": "https://aqucglxdlakcridgjimc.supabase.co",
+  "supabaseAnonKey": "sb_publishable_S6HKecICLEbSpDecl2Sq2Q_p-kFqByZ",
+  "adminEmail": "karademirturkerr@gmail.com", 
+  "publicTrackingEnabled": true 
 }
