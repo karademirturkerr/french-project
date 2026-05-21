@@ -1458,7 +1458,9 @@ p {
 
 .article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"],
 .article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"],
-.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"] {
+.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"],
+.article-sidebar .info-card a[href$="articles-tr.html"],
+.article-sidebar .info-card a[href="articles-tr.html"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1481,7 +1483,9 @@ p {
 
 .article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"]:hover,
 .article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"]:hover,
-.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"]:hover {
+.article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"]:hover,
+.article-sidebar .info-card a[href$="articles-tr.html"]:hover,
+.article-sidebar .info-card a[href="articles-tr.html"]:hover {
   transform: translateY(-1px);
   box-shadow: 0 20px 48px rgba(125, 15, 31, 0.42);
   filter: saturate(1.04);
@@ -2436,7 +2440,9 @@ p {
 
   .article-sidebar .info-card a[href*="t.me/ruhsaldanismandimitri"],
   .article-sidebar .info-card a[href*="ig.me/m/dimitrispiritual"],
-  .article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"] {
+  .article-sidebar .info-card a[href*="instagram.com/dimitrispiritual"],
+  .article-sidebar .info-card a[href$="articles-tr.html"],
+  .article-sidebar .info-card a[href="articles-tr.html"] {
     width: 100%;
   }
 
