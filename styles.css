@@ -951,6 +951,8 @@ p {
 }
 
 .slide-card {
+  display: flex;
+  flex-direction: column;
   min-height: 340px;
   padding: 28px;
   scroll-snap-align: start;
@@ -989,6 +991,33 @@ p {
     transform 180ms ease,
     box-shadow 180ms ease,
     filter 180ms ease;
+}
+
+.slide-card > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 48px;
+  margin-top: auto;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(198, 22, 48, 0.98), rgba(149, 18, 35, 0.98));
+  box-shadow: 0 16px 38px rgba(125, 15, 31, 0.34);
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.slide-card > a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 46px rgba(125, 15, 31, 0.42);
+  filter: saturate(1.06);
 }
 
 .article-card > a:hover {
