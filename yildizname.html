@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Yıldızname | Dimitri</title>
+  <meta name="description" content="Ad soyad, anne adı, doğum tarihi, doğum saati ve niyet bilgilerini gir; Dimitri'nin AI destekli yıldızname yorumu sana özel metin olarak hazırlansın.">
+  <meta name="keywords" content="yıldızname, ai yıldızname, doğum tarihi yorumu, spiritüel analiz, Dimitri yıldızname, yapay zeka yıldızname">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css?v=20260526">
+</head>
+<body>
+  <div class="site-shell page-shell">
+    <header class="site-header">
+      <a class="brand" href="index-tr.html">
+        <span class="brand-mark"></span>
+        <span>Dimitri</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav-yildizname" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" id="main-nav-yildizname" aria-label="Ana gezinme">
+        <a href="articles-tr.html">Yazılar</a>
+        <a href="tirage-tr.html">Günün kartı</a>
+        <a href="numeroloji.html">Numeroloji</a>
+        <a href="yildizname.html" aria-current="page">Yıldızname</a>
+        <a href="about-tr.html">Dimitri kimdir?</a>
+        <a href="privacy-tr.html">Gizlilik politikası</a>
+        <a href="legal-tr.html">Yasal zorunluluklar</a>
+        <a class="nav-cta" href="https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F" target="_blank" rel="noreferrer">Dimitri'ye Yaz</a>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <section class="section page-hero yildizname-hero">
+        <div class="page-hero-copy">
+          <p class="eyebrow">AI destekli yıldızname</p>
+          <h1>Doğum izlerini, niyetini ve içindeki soruyu tek akışta yıldızname yorumuna dönüştür.</h1>
+          <p class="lede narrow">
+            Ad soyad, anne adı, doğum tarihi, doğum saati, doğum yeri ve niyetini bırak. Bilgilerin, Dimitri'nin ruhsal diline uygun biçimde yapay zeka destekli bir yıldızname yorumuna çevrilsin.
+          </p>
+          <div class="hero-kicker">
+            <span>Kişisel yorum</span>
+            <span>Yapay zeka destekli</span>
+            <span>Metin çıktısı</span>
+          </div>
+        </div>
+        <figure class="page-hero-art yildizname-art" aria-hidden="true">
+          <img src="assets/hero-dimitri.png" alt="">
+        </figure>
+      </section>
+
+      <section class="section yildizname-section">
+        <div class="section-heading">
+          <p class="eyebrow">Kişisel akış</p>
+          <h2>Bilgilerini bırak, yorum birkaç saniye içinde aynı sayfada açılsın.</h2>
+        </div>
+
+        <div class="yildizname-layout">
+          <section class="yildizname-panel yildizname-form-panel">
+            <span class="card-tag">Yıldızname formu</span>
+            <form class="yildizname-form" id="yildiznameForm">
+              <div class="yildizname-form-grid">
+                <label>
+                  <span>Ad soyad</span>
+                  <input id="yildiznameFullName" name="fullName" type="text" autocomplete="name" placeholder="Ad Soyad" required>
+                </label>
+                <label>
+                  <span>Anne adı</span>
+                  <input id="yildiznameMotherName" name="motherName" type="text" autocomplete="off" placeholder="Anne Adı" required>
+                </label>
+              </div>
+
+              <div class="yildizname-form-grid yildizname-form-grid--triple">
+                <label>
+                  <span>Doğum tarihi</span>
+                  <input id="yildiznameBirthDate" name="birthDate" type="date" required>
+                </label>
+                <label>
+                  <span>Doğum saati</span>
+                  <input id="yildiznameBirthTime" name="birthTime" type="time">
+                </label>
+                <label>
+                  <span>Doğum yeri</span>
+                  <input id="yildiznameBirthPlace" name="birthPlace" type="text" autocomplete="address-level2" placeholder="İstanbul" required>
+                </label>
+              </div>
+
+              <label>
+                <span>Niyetin veya sorun</span>
+                <textarea id="yildiznameIntention" name="intention" rows="6" placeholder="Aşk, iş, para, ilişkiler veya genel enerji akışınla ilgili neyi görmek istiyorsun?" required></textarea>
+              </label>
+
+              <div class="yildizname-actions">
+                <button class="button button-primary yildizname-submit" id="yildiznameGenerateButton" type="submit">Yıldıznameyi Oluştur</button>
+                <a class="button button-secondary" href="numeroloji.html">Önce numerolojiye bak</a>
+              </div>
+              <p class="yildizname-status" id="yildiznameStatus">Bilgilerini dikkatle doldur; yorum hazır olduğunda burada açılacak.</p>
+            </form>
+          </section>
+
+          <section class="yildizname-panel yildizname-result-panel">
+            <div class="yildizname-result-head">
+              <span class="card-tag">Sonuç alanı</span>
+              <p id="yildiznameResultTime"></p>
+            </div>
+
+            <div class="yildizname-result-state" id="yildiznameResultState">
+              <strong>Henüz yıldızname oluşturulmadı.</strong>
+              <p>Formu doldurduktan sonra yorum; genel enerji, aşk ve ilişkiler, iş ve para, yakın dönem ve kısa tavsiye başlıklarıyla burada görünecek.</p>
+            </div>
+
+            <article class="yildizname-result-card hidden" id="yildiznameResultCard">
+              <div class="yildizname-result-meta">
+                <span class="result-badge">AI yorum</span>
+                <span class="yildizname-result-chip">Dimitri tınısında</span>
+              </div>
+              <div class="yildizname-result-text" id="yildiznameResultText"></div>
+              <div class="yildizname-result-cta">
+                <p>Yorumun içindeki sembolleri daha derine indirmek istersen Dimitri ile birebir yazışarak özel okuma isteyebilirsin.</p>
+                <a class="button button-primary" href="https://t.me/ruhsaldanismandimitri?text=Merhaba%20Dimitri%2C%20Nasılsın%3F" target="_blank" rel="noreferrer">Dimitri'ye Yaz</a>
+              </div>
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <section class="section article-grid">
+        <article class="article-card">
+          <span class="card-tag">Not</span>
+          <h2>Bu yorum bir içgörü alanıdır, kesin hüküm değil.</h2>
+          <p>Yıldızname metni; eğlence, sembolik yorum ve kişisel farkındalık amacı taşır. Tıbbi, hukuki ya da finansal tavsiye yerine geçmez.</p>
+        </article>
+        <article class="article-card">
+          <span class="card-tag">Devam</span>
+          <h2>Numeroloji ve makalelerle okumanı derinleştir.</h2>
+          <p>Doğum tarihin üzerinden yaşam yolu sayını hesaplamak ya da aura, ritüel ve ilişki yazılarına geçmek istersen diğer bölümler hazır.</p>
+          <a href="articles-tr.html">Yazılara git</a>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Dimitri, ruhsal rehberlik ve sezgisel kart yorumları.</p>
+      <div class="footer-links">
+        <a href="index-tr.html">Ana sayfa</a>
+        <a href="articles-tr.html">Yazılar</a>
+        <a href="numeroloji.html">Numeroloji</a>
+        <a href="legal-tr.html">Yasal zorunluluklar</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260526"></script>
+  <script src="yildizname.js?v=20260526"></script>
+</body>
+</html>
