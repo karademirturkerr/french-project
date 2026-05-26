@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20260526">
+  <link rel="stylesheet" href="styles.css?v=20260526-2">
 </head>
 <body>
   <div class="site-shell page-shell">
@@ -46,7 +46,7 @@
           </p>
           <div class="hero-kicker">
             <span>Kişisel yorum</span>
-            <span>Kişisel yorum</span>
+            <span>Ruhsal akış</span>
             <span>Metin çıktısı</span>
           </div>
         </div>
@@ -77,14 +77,86 @@
               </div>
 
               <div class="yildizname-form-grid yildizname-form-grid--triple">
-                <label>
+                <div class="yildizname-picker-stack">
                   <span>Doğum tarihi</span>
-                  <input id="yildiznameBirthDate" name="birthDate" type="date" required>
-                </label>
-                <label>
+                  <input id="yildiznameBirthDate" name="birthDate" type="hidden" required>
+                  <div class="numerology-picker yildizname-picker" data-yildizname-date-picker>
+                    <button
+                      class="numerology-picker-trigger yildizname-picker-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="yildizname-date-panel"
+                      data-yildizname-date-toggle
+                    >
+                      <span class="numerology-picker-value" data-yildizname-date-display>Gün / Ay / Yıl</span>
+                      <span class="numerology-picker-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="numerology-picker-panel" id="yildizname-date-panel" hidden data-yildizname-date-panel>
+                      <div class="numerology-picker-grid">
+                        <label class="numerology-picker-field">
+                          <span>Gün</span>
+                          <select data-yildizname-birth-day>
+                            <option value="">Gün</option>
+                          </select>
+                        </label>
+                        <label class="numerology-picker-field">
+                          <span>Ay</span>
+                          <select data-yildizname-birth-month>
+                            <option value="">Ay</option>
+                          </select>
+                        </label>
+                        <label class="numerology-picker-field">
+                          <span>Yıl</span>
+                          <select data-yildizname-birth-year>
+                            <option value="">Yıl</option>
+                          </select>
+                        </label>
+                      </div>
+                      <div class="numerology-picker-actions">
+                        <button class="button button-secondary" type="button" data-yildizname-date-clear>Temizle</button>
+                        <button class="button button-primary" type="button" data-yildizname-date-close>Tamam</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="yildizname-picker-stack">
                   <span>Doğum saati</span>
-                  <input id="yildiznameBirthTime" name="birthTime" type="time">
-                </label>
+                  <input id="yildiznameBirthTime" name="birthTime" type="hidden">
+                  <div class="numerology-picker yildizname-picker" data-yildizname-time-picker>
+                    <button
+                      class="numerology-picker-trigger yildizname-picker-trigger"
+                      type="button"
+                      aria-expanded="false"
+                      aria-controls="yildizname-time-panel"
+                      data-yildizname-time-toggle
+                    >
+                      <span class="numerology-picker-value" data-yildizname-time-display>Saat / Dakika</span>
+                      <span class="numerology-picker-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="numerology-picker-panel" id="yildizname-time-panel" hidden data-yildizname-time-panel>
+                      <div class="numerology-picker-grid numerology-picker-grid--double">
+                        <label class="numerology-picker-field">
+                          <span>Saat</span>
+                          <select data-yildizname-birth-hour>
+                            <option value="">Saat</option>
+                          </select>
+                        </label>
+                        <label class="numerology-picker-field">
+                          <span>Dakika</span>
+                          <select data-yildizname-birth-minute>
+                            <option value="">Dakika</option>
+                          </select>
+                        </label>
+                      </div>
+                      <div class="numerology-picker-actions">
+                        <button class="button button-secondary" type="button" data-yildizname-time-clear>Temizle</button>
+                        <button class="button button-primary" type="button" data-yildizname-time-close>Tamam</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <label>
                   <span>Doğum yeri</span>
                   <input id="yildiznameBirthPlace" name="birthPlace" type="text" autocomplete="address-level2" placeholder="İstanbul" required>
@@ -156,7 +228,7 @@
     </footer>
   </div>
 
-  <script src="script.js?v=20260526"></script>
-  <script src="yildizname.js?v=20260526"></script>
+  <script src="script.js?v=20260526-2"></script>
+  <script src="yildizname.js?v=20260526-2"></script>
 </body>
 </html>

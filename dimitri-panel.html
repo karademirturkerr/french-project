@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20260521">
+  <link rel="stylesheet" href="styles.css?v=20260526-2">
 </head>
 <body>
   <div class="site-shell page-shell">
@@ -29,9 +29,9 @@
       <section class="section page-hero admin-hero">
         <div class="page-hero-copy">
           <p class="eyebrow">İç akış</p>
-          <h1>Kaynak, cihaz ve numeroloji başvurularını tek yerden izle.</h1>
+          <h1>Kaynak, cihaz, numeroloji ve yıldızname başvurularını tek yerden izle.</h1>
           <p class="lede narrow">
-            Siteye gelen ziyaretçilerin geliş kaynakları, cihaz verileri ve numeroloji formuna girilen bilgiler bu panelde toplanır.
+            Siteye gelen ziyaretçilerin geliş kaynakları, cihaz verileri, numeroloji formu ve yıldızname talepleri bu panelde toplanır.
           </p>
         </div>
       </section>
@@ -85,6 +85,17 @@
               </div>
               <div class="admin-table-wrap" data-admin-leads-table></div>
             </article>
+
+            <article class="info-card admin-data-card">
+              <div class="admin-data-head">
+                <div>
+                  <span class="card-tag">Yıldızname</span>
+                  <h3>Yıldızname kayıtları</h3>
+                </div>
+                <p data-admin-yildizname-count></p>
+              </div>
+              <div class="admin-table-wrap" data-admin-yildizname-table></div>
+            </article>
           </div>
         </section>
       </section>
@@ -92,6 +103,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="admin-panel.js?v=20260521"></script>
+  <script src="admin-panel.js?v=20260526-2"></script>
 </body>
 </html>

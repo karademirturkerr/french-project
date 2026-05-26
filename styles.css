@@ -1360,6 +1360,10 @@ p {
   gap: 12px;
 }
 
+.numerology-picker-grid--double {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .numerology-picker-field {
   display: grid;
   gap: 8px;
@@ -1491,12 +1495,18 @@ p {
   gap: 8px;
 }
 
-.yildizname-form label span {
+.yildizname-form label span,
+.yildizname-picker-stack > span {
   color: var(--gold);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.yildizname-picker-stack {
+  display: grid;
+  gap: 8px;
 }
 
 .yildizname-form-grid {
@@ -1527,6 +1537,14 @@ p {
   padding: 16px 18px;
   resize: vertical;
   border-radius: 24px;
+}
+
+.yildizname-picker .numerology-picker-trigger {
+  min-height: 58px;
+}
+
+.yildizname-picker .numerology-picker-value {
+  align-self: center;
 }
 
 .yildizname-form input::placeholder,
@@ -1773,7 +1791,7 @@ p {
 
 .admin-summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-bottom: 22px;
 }

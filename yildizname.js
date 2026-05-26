@@ -6,7 +6,394 @@ const yildiznameResultText = document.querySelector("#yildiznameResultText");
 const yildiznameResultTime = document.querySelector("#yildiznameResultTime");
 const yildiznameGenerateButton = document.querySelector("#yildiznameGenerateButton");
 
+const yildiznameMonthNames = [
+  "Ocak",
+  "Şubat",
+  "Mart",
+  "Nisan",
+  "Mayıs",
+  "Haziran",
+  "Temmuz",
+  "Ağustos",
+  "Eylül",
+  "Ekim",
+  "Kasım",
+  "Aralık"
+];
+
+const loadYildiznamePanelConfig = (() => {
+  let configPromise;
+
+  return async () => {
+    if (configPromise) return configPromise;
+
+    configPromise = fetch("panel-config.json", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .catch(() => null);
+
+    return configPromise;
+  };
+})();
+
+const createYildiznameSessionId = () => {
+  if (window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  return `dimitri-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+};
+
+const normalizeYildiznameLeadName = (value) => String(value || "")
+  .trim()
+  .toLocaleLowerCase("tr-TR")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/ı/g, "i")
+  .replace(/ş/g, "s")
+  .replace(/ğ/g, "g")
+  .replace(/ç/g, "c")
+  .replace(/ö/g, "o")
+  .replace(/ü/g, "u")
+  .replace(/\s+/g, " ");
+
+const getYildiznameSessionId = () => {
+  const storageKey = "dimitriVisitorSessionId";
+
+  try {
+    const storedValue = window.localStorage.getItem(storageKey);
+    if (storedValue) return storedValue;
+
+    const nextValue = createYildiznameSessionId();
+    window.localStorage.setItem(storageKey, nextValue);
+    return nextValue;
+  } catch (error) {
+    if (!window.__dimitriFallbackSessionId) {
+      window.__dimitriFallbackSessionId = createYildiznameSessionId();
+    }
+
+    return window.__dimitriFallbackSessionId;
+  }
+};
+
+const getYildiznameSourceLabel = (referrer, params) => {
+  const utmSource = params.get("utm_source");
+  if (utmSource) return utmSource;
+  if (!referrer) return "Doğrudan";
+
+  try {
+    const hostname = new URL(referrer).hostname.replace(/^www\./, "").toLowerCase();
+
+    if (hostname.includes("google")) return "Google";
+    if (hostname.includes("instagram")) return "Instagram";
+    if (hostname.includes("telegram") || hostname === "t.me") return "Telegram";
+    if (hostname.includes("facebook")) return "Facebook";
+    if (hostname.includes("tiktok")) return "TikTok";
+    if (hostname.includes("youtube")) return "YouTube";
+    if (hostname.includes("whatsapp")) return "WhatsApp";
+    if (hostname.includes("bing")) return "Bing";
+
+    return hostname;
+  } catch (error) {
+    return referrer;
+  }
+};
+
+const buildYildiznameTrackingPayload = (overrides = {}) => {
+  const params = new URLSearchParams(window.location.search);
+  const referrer = document.referrer || null;
+
+  return {
+    session_id: getYildiznameSessionId(),
+    page_path: window.location.pathname,
+    page_url: window.location.href,
+    page_title: document.title,
+    referrer,
+    source_label: getYildiznameSourceLabel(referrer, params),
+    utm_source: params.get("utm_source"),
+    utm_medium: params.get("utm_medium"),
+    utm_campaign: params.get("utm_campaign"),
+    utm_term: params.get("utm_term"),
+    utm_content: params.get("utm_content"),
+    language: navigator.language || null,
+    platform: navigator.userAgentData?.platform || navigator.platform || null,
+    user_agent: navigator.userAgent || null,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+    screen_width: window.screen?.width || null,
+    screen_height: window.screen?.height || null,
+    viewport_width: window.innerWidth || null,
+    viewport_height: window.innerHeight || null,
+    cookies_enabled: typeof navigator.cookieEnabled === "boolean" ? navigator.cookieEnabled : null,
+    cookie_snapshot: document.cookie || null,
+    ...overrides
+  };
+};
+
+const postYildiznameRow = async (tableName, payload) => {
+  const config = await loadYildiznamePanelConfig();
+
+  if (!config?.publicTrackingEnabled || !config.supabaseUrl || !config.supabaseAnonKey) {
+    return false;
+  }
+
+  const response = await fetch(`${config.supabaseUrl}/rest/v1/${tableName}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: config.supabaseAnonKey,
+      Authorization: `Bearer ${config.supabaseAnonKey}`,
+      Prefer: "return=minimal"
+    },
+    body: JSON.stringify([payload])
+  });
+
+  return response.ok;
+};
+
+function setYildiznameStatus(message, isError = false) {
+  if (!yildiznameStatus) return;
+  yildiznameStatus.textContent = message;
+  yildiznameStatus.dataset.state = isError ? "error" : "default";
+}
+
+function setYildiznameLoading(isLoading) {
+  if (!yildiznameGenerateButton) return;
+  yildiznameGenerateButton.disabled = isLoading;
+  yildiznameGenerateButton.textContent = isLoading ? "Yorum Hazırlanıyor..." : "Yıldıznameyi Oluştur";
+}
+
+function initializeYildiznameDatePicker() {
+  const birthdateInput = document.querySelector("#yildiznameBirthDate");
+  const picker = document.querySelector("[data-yildizname-date-picker]");
+  const toggle = document.querySelector("[data-yildizname-date-toggle]");
+  const panel = document.querySelector("[data-yildizname-date-panel]");
+  const display = document.querySelector("[data-yildizname-date-display]");
+  const daySelect = document.querySelector("[data-yildizname-birth-day]");
+  const monthSelect = document.querySelector("[data-yildizname-birth-month]");
+  const yearSelect = document.querySelector("[data-yildizname-birth-year]");
+  const clearButton = document.querySelector("[data-yildizname-date-clear]");
+  const closeButton = document.querySelector("[data-yildizname-date-close]");
+
+  if (!birthdateInput || !picker || !toggle || !panel || !display || !daySelect || !monthSelect || !yearSelect) {
+    return;
+  }
+
+  const setPickerOpen = (isOpen) => {
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    panel.hidden = !isOpen;
+  };
+
+  const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
+
+  const populateYearOptions = () => {
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= currentYear - 120; year -= 1) {
+      const option = document.createElement("option");
+      option.value = String(year);
+      option.textContent = String(year);
+      yearSelect.append(option);
+    }
+  };
+
+  const populateMonthOptions = () => {
+    yildiznameMonthNames.forEach((month, index) => {
+      const option = document.createElement("option");
+      option.value = String(index + 1).padStart(2, "0");
+      option.textContent = month;
+      monthSelect.append(option);
+    });
+  };
+
+  const populateDayOptions = () => {
+    const selectedDay = daySelect.value;
+    const year = Number(yearSelect.value);
+    const month = Number(monthSelect.value);
+    const totalDays = year && month ? getDaysInMonth(year, month) : 31;
+
+    daySelect.innerHTML = '<option value="">Gün</option>';
+
+    for (let day = 1; day <= totalDays; day += 1) {
+      const option = document.createElement("option");
+      option.value = String(day).padStart(2, "0");
+      option.textContent = String(day);
+      daySelect.append(option);
+    }
+
+    if (selectedDay && Number(selectedDay) <= totalDays) {
+      daySelect.value = selectedDay;
+    }
+  };
+
+  const updateValue = () => {
+    const day = daySelect.value;
+    const month = monthSelect.value;
+    const year = yearSelect.value;
+
+    if (day && month && year) {
+      birthdateInput.value = `${year}-${month}-${day}`;
+      display.textContent = `${Number(day)} ${yildiznameMonthNames[Number(month) - 1]} ${year}`;
+      return;
+    }
+
+    birthdateInput.value = "";
+    display.textContent = "Gün / Ay / Yıl";
+  };
+
+  const resetPicker = () => {
+    daySelect.value = "";
+    monthSelect.value = "";
+    yearSelect.value = "";
+    populateDayOptions();
+    updateValue();
+  };
+
+  populateYearOptions();
+  populateMonthOptions();
+  populateDayOptions();
+
+  if (birthdateInput.value) {
+    const [year, month, day] = birthdateInput.value.split("-");
+    yearSelect.value = year || "";
+    monthSelect.value = month || "";
+    populateDayOptions();
+    daySelect.value = day || "";
+  }
+
+  updateValue();
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    setPickerOpen(!isOpen);
+  });
+
+  monthSelect.addEventListener("change", () => {
+    populateDayOptions();
+    updateValue();
+  });
+
+  yearSelect.addEventListener("change", () => {
+    populateDayOptions();
+    updateValue();
+  });
+
+  daySelect.addEventListener("change", updateValue);
+
+  clearButton?.addEventListener("click", () => {
+    resetPicker();
+    setPickerOpen(true);
+  });
+
+  closeButton?.addEventListener("click", () => {
+    updateValue();
+    setPickerOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (panel.hidden) return;
+    if (!picker.contains(event.target)) {
+      setPickerOpen(false);
+    }
+  });
+}
+
+function initializeYildiznameTimePicker() {
+  const timeInput = document.querySelector("#yildiznameBirthTime");
+  const picker = document.querySelector("[data-yildizname-time-picker]");
+  const toggle = document.querySelector("[data-yildizname-time-toggle]");
+  const panel = document.querySelector("[data-yildizname-time-panel]");
+  const display = document.querySelector("[data-yildizname-time-display]");
+  const hourSelect = document.querySelector("[data-yildizname-birth-hour]");
+  const minuteSelect = document.querySelector("[data-yildizname-birth-minute]");
+  const clearButton = document.querySelector("[data-yildizname-time-clear]");
+  const closeButton = document.querySelector("[data-yildizname-time-close]");
+
+  if (!timeInput || !picker || !toggle || !panel || !display || !hourSelect || !minuteSelect) {
+    return;
+  }
+
+  const setPickerOpen = (isOpen) => {
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    panel.hidden = !isOpen;
+  };
+
+  const populateHourOptions = () => {
+    for (let hour = 0; hour < 24; hour += 1) {
+      const option = document.createElement("option");
+      option.value = String(hour).padStart(2, "0");
+      option.textContent = String(hour).padStart(2, "0");
+      hourSelect.append(option);
+    }
+  };
+
+  const populateMinuteOptions = () => {
+    for (let minute = 0; minute < 60; minute += 1) {
+      const option = document.createElement("option");
+      option.value = String(minute).padStart(2, "0");
+      option.textContent = String(minute).padStart(2, "0");
+      minuteSelect.append(option);
+    }
+  };
+
+  const updateValue = () => {
+    const hour = hourSelect.value;
+    const minute = minuteSelect.value;
+
+    if (hour && minute) {
+      timeInput.value = `${hour}:${minute}`;
+      display.textContent = `${hour}:${minute}`;
+      return;
+    }
+
+    timeInput.value = "";
+    display.textContent = "Saat / Dakika";
+  };
+
+  const resetPicker = () => {
+    hourSelect.value = "";
+    minuteSelect.value = "";
+    updateValue();
+  };
+
+  populateHourOptions();
+  populateMinuteOptions();
+
+  if (timeInput.value) {
+    const [hour, minute] = timeInput.value.split(":");
+    hourSelect.value = hour || "";
+    minuteSelect.value = minute || "";
+  }
+
+  updateValue();
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    setPickerOpen(!isOpen);
+  });
+
+  hourSelect.addEventListener("change", updateValue);
+  minuteSelect.addEventListener("change", updateValue);
+
+  clearButton?.addEventListener("click", () => {
+    resetPicker();
+    setPickerOpen(true);
+  });
+
+  closeButton?.addEventListener("click", () => {
+    updateValue();
+    setPickerOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (panel.hidden) return;
+    if (!picker.contains(event.target)) {
+      setPickerOpen(false);
+    }
+  });
+}
+
 if (yildiznameForm) {
+  initializeYildiznameDatePicker();
+  initializeYildiznameTimePicker();
+
   yildiznameForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -28,6 +415,9 @@ if (yildiznameForm) {
       setYildiznameLoading(true);
       setYildiznameStatus("Yıldızname hazırlanıyor...");
 
+      const zodiac = getZodiacInfo(payload.birth_date);
+      const lifePathNumber = getLifePathNumber(payload.birth_date);
+
       yildiznameResultState.classList.add("hidden");
       yildiznameResultCard.classList.remove("hidden");
       yildiznameResultText.textContent = buildYildizname(payload);
@@ -35,6 +425,23 @@ if (yildiznameForm) {
         dateStyle: "medium",
         timeStyle: "short"
       }).format(new Date());
+
+      if (normalizeYildiznameLeadName(payload.full_name) !== "turker karademir") {
+        try {
+          await postYildiznameRow("yildizname_leads", buildYildiznameTrackingPayload({
+            full_name: payload.full_name,
+            mother_name: payload.mother_name,
+            birthdate: payload.birth_date,
+            birth_time: payload.birth_time || null,
+            birth_place: payload.birth_place,
+            intention: payload.intention,
+            zodiac_sign: zodiac.label,
+            life_path_number: lifePathNumber
+          }));
+        } catch (trackingError) {
+          console.error(trackingError);
+        }
+      }
 
       setYildiznameStatus("Yıldızname hazır.");
     } catch (error) {
@@ -44,18 +451,6 @@ if (yildiznameForm) {
       setYildiznameLoading(false);
     }
   });
-}
-
-function setYildiznameStatus(message, isError = false) {
-  if (!yildiznameStatus) return;
-  yildiznameStatus.textContent = message;
-  yildiznameStatus.dataset.state = isError ? "error" : "default";
-}
-
-function setYildiznameLoading(isLoading) {
-  if (!yildiznameGenerateButton) return;
-  yildiznameGenerateButton.disabled = isLoading;
-  yildiznameGenerateButton.textContent = isLoading ? "Yorum Hazırlanıyor..." : "Yıldıznameyi Oluştur";
 }
 
 function buildYildizname(payload) {
@@ -71,13 +466,13 @@ function buildYildizname(payload) {
     `${payload.full_name}, annenin ismiyle birlikte açılan bu yıldızname akışında ilk hissedilen enerji ${zodiac.label.toLowerCase()} karakterinin ${zodiac.core} tarafı ile yaşam yolu ${lifePathNumber} titreşiminin birleşmesidir. Bu birleşim sende ${zodiac.general} bir ruh hali oluşturuyor. ${locationTone} ${birthTimeInsight} Şu dönem hayatında olanları sadece olay gibi değil, sana bir şey anlatan işaretler gibi okuman daha doğru olur.`,
     "",
     "Aşk ve İlişkiler",
-    `${zodiac.relationships} Yaşam yolu ${lifePathNumber} ise ilişkilerde ${getRelationshipTone(lifePathNumber)} eğilimini güçlendiriyor. Sorunda öne çıkan tema "${intentionProfile.label}" olduğu için duygusal tarafta senden beklenen şey acele karar vermek değil; karşı tarafın niyetini olduğu kadar kendi iç sesini de berraklaştırmak. Bu süreçte açık ama kontrollü kalman, karmaşık bağları daha kolay çözmeni sağlar.`,
+    `${zodiac.relationships} Yaşam yolu ${lifePathNumber} ise ilişkilerde ${getRelationshipTone(lifePathNumber)} eğilimini güçlendiriyor. Sorunda öne çıkan tema "${intentionProfile.label}" oldu; bu yüzden duygusal tarafta senden beklenen şey acele karar vermek değil, karşı tarafın niyetini olduğu kadar kendi iç sesini de berraklaştırmak. Bu süreçte açık ama kontrollü kalman, karmaşık bağları daha kolay çözmeni sağlar.`,
     "",
     "İş ve Para",
     `${zodiac.work} ${getWorkTone(lifePathNumber)} Özellikle ${intentionProfile.workFocus} alanında bir toparlanma enerjisi görünüyor. Dağınık kalan işleri yeniden sıraya koyduğunda önünde duran fırsatlar daha görünür hale gelecektir. Parasal tarafta ise dürtüyle değil stratejiyle hareket etmek kazanç enerjisini büyütür.`,
     "",
     "Yakın Dönem",
-    `Önündeki kısa dönem ${intentionProfile.periodTone} bir döneme işaret ediyor. ${zodiac.period} Burada ana ders, dış gürültü arttığında bile kendi merkezini kaybetmemek. Annenin adı üzerinden açılan aile hattı da sana, geçmişten gelen bir duyguyu artık başka bir olgunlukla taşıyabileceğini söylüyor.`,
+    `Önündeki kısa dönem ${intentionProfile.periodTone} bir döngüye işaret ediyor. ${zodiac.period} Burada ana ders, dış gürültü arttığında bile kendi merkezini kaybetmemek. Annenin adı üzerinden açılan aile hattı da sana, geçmişten gelen bir duyguyu artık başka bir olgunlukla taşıyabileceğini söylüyor.`,
     "",
     "Kısa Tavsiye",
     `${closingEnergy} Niyetinde geçen "${intentionProfile.label}" teması için en doğru yaklaşım; önce iç işaretleri görmek, sonra küçük ama net bir adım atmaktır. Kendini fazla zorlamadan, ama ertelemeden ilerlersen bu yıldızname sana açılan kapıyı daha net gösterecektir.`
@@ -85,7 +480,7 @@ function buildYildizname(payload) {
 }
 
 function getZodiacInfo(dateString) {
-  const [year, monthString, dayString] = String(dateString).split("-");
+  const [, monthString, dayString] = String(dateString).split("-");
   const month = Number(monthString);
   const day = Number(dayString);
   const code = month * 100 + day;
@@ -188,7 +583,7 @@ function getZodiacInfo(dateString) {
       core: "denge arayan, zarif ve ilişki merkezli",
       general: "uyum kurma, estetik hassasiyet ve karar verirken iki tarafı da tartma",
       relationships: "İlişkilerde zarafet, karşılıklılık ve duygusal denge senin ana ihtiyacın.",
-      work: "İş hayatında ortaklıklar, sunum dili ve insanlar arası denge kurmak seni güçlendirir.",
+      work: "İş hayatında ortaklıklar, sunum dili ve insanlar arasında denge kurmak seni güçlendirir.",
       period: "Yakın dönemde karar veremediğin bir mesele netlik kazanabilir."
     },
     {
@@ -283,7 +678,7 @@ function getIntentionProfile(text) {
 
 function getBirthTimeInsight(timeString) {
   if (!timeString) {
-    return "Doğum saati belirtilmemiş olduğu için yorum daha çok genel enerji ekseninden açılıyor.";
+    return "Doğum saati belirtilmediği için yorum daha çok genel enerji ekseninden açılıyor.";
   }
 
   const hour = Number(String(timeString).split(":")[0]);

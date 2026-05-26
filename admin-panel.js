@@ -9,7 +9,9 @@ const adminElements = {
   visitorsCount: document.querySelector("[data-admin-visitors-count]"),
   visitorsTable: document.querySelector("[data-admin-visitors-table]"),
   leadsCount: document.querySelector("[data-admin-leads-count]"),
-  leadsTable: document.querySelector("[data-admin-leads-table]")
+  leadsTable: document.querySelector("[data-admin-leads-table]"),
+  yildiznameCount: document.querySelector("[data-admin-yildizname-count]"),
+  yildiznameTable: document.querySelector("[data-admin-yildizname-table]")
 };
 
 const adminState = {
@@ -47,6 +49,13 @@ const formatBirthdate = (value) => {
   } catch (error) {
     return value;
   }
+};
+
+const formatBirthTime = (value) => {
+  if (!value) return "—";
+
+  const normalized = String(value).trim();
+  return normalized.slice(0, 5) || normalized;
 };
 
 const getHostLabel = (value) => {
@@ -95,7 +104,22 @@ const isAuthorizedSession = (session) => {
   return Boolean(sessionEmail && adminEmail && sessionEmail === adminEmail);
 };
 
-const renderSummary = (visitors, leads) => {
+const resolveQueryRows = (result, tableName) => {
+  if (!result?.error) {
+    return result?.data || [];
+  }
+
+  const errorCode = result.error.code;
+  const errorMessage = String(result.error.message || "");
+
+  if (errorCode === "42P01" || (errorMessage.includes(tableName) && errorMessage.toLowerCase().includes("does not exist"))) {
+    return [];
+  }
+
+  throw result.error;
+};
+
+const renderSummary = (visitors, numerologyLeads, yildiznameLeads) => {
   if (!adminElements.summary) return;
 
   const sourceMap = new Map();
@@ -106,7 +130,8 @@ const renderSummary = (visitors, leads) => {
 
   const topSource = [...sourceMap.entries()]
     .sort((first, second) => second[1] - first[1])[0];
-  const latestLead = leads[0];
+  const latestNumerologyLead = numerologyLeads[0];
+  const latestYildiznameLead = yildiznameLeads[0];
 
   const cards = [
     {
@@ -116,8 +141,13 @@ const renderSummary = (visitors, leads) => {
     },
     {
       title: "Numeroloji kayıtları",
-      value: String(leads.length),
+      value: String(numerologyLeads.length),
       note: "İsim ve doğum tarihi bırakanlar"
+    },
+    {
+      title: "Yıldızname kayıtları",
+      value: String(yildiznameLeads.length),
+      note: "Yıldızname formunu dolduranlar"
     },
     {
       title: "En güçlü kaynak",
@@ -126,8 +156,13 @@ const renderSummary = (visitors, leads) => {
     },
     {
       title: "Son numeroloji kaydı",
-      value: latestLead ? escapeHtml(latestLead.full_name) : "Henüz yok",
-      note: latestLead ? `Yaşam yolu ${latestLead.life_path_number}` : "Yeni form bekleniyor"
+      value: latestNumerologyLead ? escapeHtml(latestNumerologyLead.full_name) : "Henüz yok",
+      note: latestNumerologyLead ? `Yaşam yolu ${latestNumerologyLead.life_path_number}` : "Yeni form bekleniyor"
+    },
+    {
+      title: "Son yıldızname kaydı",
+      value: latestYildiznameLead ? escapeHtml(latestYildiznameLead.full_name) : "Henüz yok",
+      note: latestYildiznameLead ? `${escapeHtml(latestYildiznameLead.birth_place || "Yer yok")} · ${escapeHtml(formatBirthTime(latestYildiznameLead.birth_time))}` : "Yeni yıldızname bekleniyor"
     }
   ];
 
@@ -175,7 +210,7 @@ const renderVisitors = (visitors) => {
             </td>
             <td>
               <strong>${escapeHtml(item.platform || "Bilinmiyor")}</strong>
-              <span>${escapeHtml(item.viewport_width || "?" )} x ${escapeHtml(item.viewport_height || "?")}</span>
+              <span>${escapeHtml(item.viewport_width || "?")} x ${escapeHtml(item.viewport_height || "?")}</span>
             </td>
             <td>${item.cookie_snapshot ? "Var" : "Yok"}</td>
           </tr>
@@ -227,6 +262,54 @@ const renderLeads = (leads) => {
   `;
 };
 
+const renderYildiznameLeads = (leads) => {
+  if (!adminElements.yildiznameTable || !adminElements.yildiznameCount) return;
+
+  adminElements.yildiznameCount.textContent = `${leads.length} kayıt`;
+
+  if (!leads.length) {
+    adminElements.yildiznameTable.innerHTML = '<p class="admin-empty">Henüz yıldızname formu gönderilmedi.</p>';
+    return;
+  }
+
+  adminElements.yildiznameTable.innerHTML = `
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Zaman</th>
+          <th>Kişi</th>
+          <th>Doğum bilgisi</th>
+          <th>Niyet</th>
+          <th>Kaynak</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${leads.map((item) => `
+          <tr>
+            <td>${formatDateTime(item.created_at)}</td>
+            <td>
+              <strong>${escapeHtml(item.full_name)}</strong>
+              <span>Anne adı: ${escapeHtml(item.mother_name || "—")}</span>
+            </td>
+            <td>
+              <strong>${formatBirthdate(item.birthdate)}</strong>
+              <span>${escapeHtml(formatBirthTime(item.birth_time))} · ${escapeHtml(item.birth_place || "Yer yok")}</span>
+            </td>
+            <td>
+              <strong>${escapeHtml(item.zodiac_sign || "Yıldızname")}</strong>
+              <span>${escapeHtml((item.intention || "").slice(0, 88) || "Niyet yok")}${item.intention && item.intention.length > 88 ? "..." : ""}</span>
+            </td>
+            <td>
+              <strong>${escapeHtml(item.source_label || "Doğrudan")}</strong>
+              <span>${escapeHtml(getHostLabel(item.referrer))}</span>
+            </td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+};
+
 const fetchDashboardData = async () => {
   const visitorsQuery = adminState.client
     .from("visitor_events")
@@ -240,20 +323,28 @@ const fetchDashboardData = async () => {
     .order("created_at", { ascending: false })
     .limit(120);
 
-  const [{ data: visitors, error: visitorsError }, { data: leads, error: leadsError }] = await Promise.all([
+  const yildiznameQuery = adminState.client
+    .from("yildizname_leads")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(120);
+
+  const [visitorsResult, leadsResult, yildiznameResult] = await Promise.all([
     visitorsQuery,
-    leadsQuery
+    leadsQuery,
+    yildiznameQuery
   ]);
 
-  if (visitorsError) throw visitorsError;
-  if (leadsError) throw leadsError;
+  const safeVisitors = resolveQueryRows(visitorsResult, "visitor_events");
+  const safeLeads = resolveQueryRows(leadsResult, "numerology_leads")
+    .filter((item) => normalizeLeadName(item.full_name) !== "turker karademir");
+  const safeYildiznameLeads = resolveQueryRows(yildiznameResult, "yildizname_leads")
+    .filter((item) => normalizeLeadName(item.full_name) !== "turker karademir");
 
-  const safeVisitors = visitors || [];
-  const safeLeads = (leads || []).filter((item) => normalizeLeadName(item.full_name) !== "turker karademir");
-
-  renderSummary(safeVisitors, safeLeads);
+  renderSummary(safeVisitors, safeLeads, safeYildiznameLeads);
   renderVisitors(safeVisitors);
   renderLeads(safeLeads);
+  renderYildiznameLeads(safeYildiznameLeads);
 };
 
 const showAuthorizedState = async (session) => {
